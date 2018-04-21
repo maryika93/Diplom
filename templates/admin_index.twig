@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Админка</title>
+</head>
+<body>
+<header>
+</header>
+<section>
+    <h1> Админка </h1>
+    <form method="post" action="" enctype="multipart/form-data">
+        <label>Список администраторов</label>
+        <select name = 'admins'>
+            {% for user in users %}
+                <option value = "{{ user.login }}" > {{ user.login }} </option>
+            {% endfor %}
+        </select>
+        <label>Изменить пароль этого администратора на: </label>
+        <input type="text" placeholder="Новый пароль" name="newpassword">
+        <input type="submit" name="change" value="Изменить">
+        <input type="submit" name="deleteadmin" value="Удалить этого администратора"><br/><br/>
+        <label>Создать нового администратора:</label><br/>
+        <label>Логин</label>
+        <input type="text" placeholder="Логин" name="login">
+        <label>Пароль</label>
+        <input type="password"  placeholder="Пароль" name="password">
+        <input type="submit" name="reg" value="Создать"><br/><br/>
+        <label>Посмотреть данные по категории</label>
+        <select name = 'categories'>
+            {% for cat in cats %}
+                <option value = "{{ cat.category }}" > {{ cat.category }} </option>
+            {% endfor %}
+        </select>
+        <input type="submit" name="seeques" value="Посмотреть">
+        <input type="submit" name="deletecat" value="Удалить эту категорию и вопросы в ней"><br/>
+
+        <table border="1", cellpadding="10", width="100%">
+            <tr>
+                <td align="center"> Всего вопросов в теме </td>
+                <td align="center">{{ numberquestions }}</td>
+            </tr>
+            <tr>
+                <td align="center"> Опубликовано вопросов </td>
+                <td align="center">{{ answquestions }}</td>
+            </tr>
+            <tr>
+                <td align="center"> Не опубликовано вопросов </td>
+                <td align="center">{{ userquestions }}</td>
+            </tr>
+        </table><br/><br/>
+        <table border="1", cellpadding="10", width="100%">
+            <tr>
+                <td align="center"> <strong> Вопрос </strong> </td>
+                <td align="center"> <strong> Дата создания </strong> </td>
+                <td align="center"> <strong> Статус </strong> </td>
+                <td align="center">  </td>
+            </tr>
+            {% for answquest in answques %}
+            <tr>
+                <td align="center">{{ answquest.question }}</td>
+                <td align="center">{{ answquest.date }}</td>
+                <td align="center"> {{ answquest.status }} </td>
+                <td align="center"><a href="admin_index.php?deleteansw={{ answquest.id }}">Удалить</a>
+                    <a href="admin_index.php?hideansw={{ answquest.id }}">Скрыть</a>
+                    <a href="admin_index.php?showansw={{ answquest.id }}">Опубликовать</a></td>
+            </tr>
+            {% endfor %}
+            {% for userquest in userques %}
+            <tr>
+                    <td align="center">{{ userquest.question }}</td>
+                    <td align="center">{{ userquest.date }}</td>
+                <td align="center"> Ожидает ответа </td>
+                <td align="center"><a href="admin_index.php?deleteuser={{ userquest.id }}">Удалить</a></td>
+            </tr>
+            {% endfor %}
+        </table><br/><br/>
+
+        <table border="1", cellpadding="10", width="100%">
+            <tr>
+                <td align="center"> <strong> Вопрос </strong> </td>
+                <td align="center"> <strong> Автор </strong> </td>
+                <td align="center">  </td>
+            </tr>
+            {% for userquest in userques %}
+                <tr>
+                    <td align="center">{{ userquest.question }}</td>
+                    <td align="center">{{ userquest.user }}</td>
+                    <td align="center"><input type="text" placeholder="Имя автора" name="authorname"><input type="submit" name="b{{ userquest.id }}" value="Изменить имя автора"><br/>
+                        <input type="text" placeholder="Текст вопроса" name="questext"><input type="submit" name="a{{ userquest.id }}" value="Изменить текст вопроса">
+                </tr>
+            {% endfor %}
+        </table><br/><br/>
+
+        <label>Создать новую категорию</label>
+        <input type="text"  placeholder="категория" name="newcat">
+        <input type="submit" name="createnewcat" value="Создать"><br/><br/>
+    </form>
+</section>
+</body>
+</html>
