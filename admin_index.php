@@ -13,7 +13,7 @@ require_once 'model/User_question.php';
         'cache' => 'cash',
         'auto_reload' => true));
 
-    $template = $twig->loadTemplate('admin_index.tmpl');
+    $template = $twig->loadTemplate('admin_index.twig');
 
     $db = db();
 
