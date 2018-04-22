@@ -1,11 +1,11 @@
 <?php
 require_once 'vendor/autoload.php';
-require_once 'model/connectDB.php';
-require_once 'model/AnswersDB.php';
-require_once 'model/CategoriesDB.php';
-require_once 'model/QuestiomsDB.php';
-require_once 'model/UsersDB.php';
-require_once 'model/UsersQuestionsDB.php';
+require_once 'lib/connect.php';
+require_once 'model/Answer.php';
+require_once 'model/Category.php';
+require_once 'model/Question.php';
+require_once 'model/User.php';
+require_once 'model/User_question.php';
 
 
     $loader = new Twig_Loader_Filesystem('templates');
@@ -17,8 +17,8 @@ require_once 'model/UsersQuestionsDB.php';
 
     $db = db();
 
-    $users  = selectUs();
-    $cats  = selectCat();
+    $users  = selectUsers();
+    $cats  = selectCategories();
 
     if(isset($_POST['seeques'])){
 
@@ -28,12 +28,12 @@ require_once 'model/UsersQuestionsDB.php';
                 $idcat = $cat['id'];
             }
         }
-        $answquestions = selectIDQues($idcat);
-        $userquestions = selectIDUsQues($idcat);
+        $answquestions = selectIDQuestion($idcat);
+        $userquestions = selectIDUsersQuestion($idcat);
         $numberquestions = $answquestions + $userquestions;
 
-        $answques = selectAllQues($idcat);
-        $userques = selectAllUsQues($idcat);
+        $answques = selectAllQuestions($idcat);
+        $userques = selectAllUsersQuestions($idcat);
 
     }
     else{
@@ -61,38 +61,38 @@ require_once 'model/UsersQuestionsDB.php';
             if (isset($_POST['password'])) {
                 $password = md5($_POST['password']);
             }
-            $data = selectAllUs($login);
+            $data = selectAllUsers($login);
             foreach ($data as $rows) {
                 if (!empty($rows['id'])) {
                     exit("Извините, введённый вами логин уже зарегистрирован. Введите другой логин. </br></br></br> <a href='reg.php'>Вернуться</a>");
                 }
             }
-            $result = insertUs($login, $password);
+            $result = insertUser($login, $password);
             die;
         }
 
         if(isset($_POST['change'])){
             $newpassword = md5($_POST['newpassword']);
             $newlog = $_POST['admins'];
-            $datadone = updateUs($newpassword, $newlog);
+            $datadone = updateUser($newpassword, $newlog);
             die;
         }
 
         if(isset($_POST['deleteadmin'])){
             $log = $_POST['admins'];
-            $datadel = deleteUs($log);
+            $datadel = deleteUser($log);
             die;
         }
 
         if(isset($_POST['createnewcat'])) {
             $newcategory = $_POST['newcat'];
-            $newcat = insertCat($newcategory);
+            $newcat = insertCategory($newcategory);
             die;
         }
 
         if(isset($_POST['deletecat'])){
             $delcat = $_POST['categories'];
-            $catdel = deleteCat($delcat);
+            $catdel = deleteCategory($delcat);
 
             $categ = $_POST['categories'];
             foreach ($cats as $cat){
@@ -100,7 +100,7 @@ require_once 'model/UsersQuestionsDB.php';
                     $idcat = $cat['id'];
                 }
             }
-            $uquesdel = deleteQues($idcat);
+            $uquesdel = deleteQuestionInCategory($idcat);
             die;
         }
         foreach ($_POST as $key => $value){
@@ -108,14 +108,14 @@ require_once 'model/UsersQuestionsDB.php';
                 if (isset($_POST['authorname'])) {
                     $b        = substr($key, 1); //id
                     $newname  = $_POST['authorname'];
-                    $datadone = updateUsQues($newname, $b);
+                    $datadone = updateUsersQuestion($newname, $b);
                 }
             }
             if($key[0] === 'a' && $value !== ''){
                 if (isset($_POST['questext'])) {
                     $newquest = $_POST['questext'];
                     $a        = substr($key, 1); //id
-                    $updques  = updateUsQuesQ($newquest, $a);
+                    $updques  = updateUsersQuestionQ($newquest, $a);
                 }
             }
         }
@@ -125,18 +125,18 @@ if (!empty($_GET)) {
 
     if (isset($_GET['deleteuser'])) {
         $del     = $_GET['deleteuser'];
-        $datadel = deleteUsQuesID($del);
+        $datadel = deleteUsersQuestionID($del);
     }
 
     if (isset($_GET['deleteansw'])) {
         $del     = $_GET['deleteansw'];
-        $datadel = deleteQuesID($del);
+        $datadel = deleteQuestionByID($del);
     }
 
     if(isset($_GET['changeauthor'])){
         $author = $_GET['changeauthor'];
         $newname = $_POST['authorname'];
-        $datadone = updateUsQuesLog($newname, $author);
+        $datadone = updateUsersQuestionAuthor($newname, $author);
         die;
     }
 }

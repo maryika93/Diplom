@@ -1,27 +1,32 @@
 <?php
 
-function selectQues()
+function selectQuestions()
 {
     $db = db();
-    $ques = $db->query('SELECT * FROM questions')->fetchAll();
+    $ques = $db->query('SELECT id, question, id_category, date, status FROM questions')->fetchAll();
     return $ques;
 }
 
-function selectAllQues($idcat)
+function selectAllQuestions($idcat)
 {
     $db = db();
-    $answques = $db->query("SELECT * FROM questions WHERE id_category = '$idcat'")->fetchAll();
+    $answques = $db->prepare("SELECT id, question, id_category, date, status FROM questions WHERE id_category = :qcategory");
+    $answques->bindParam(':qcategory', $idcat);
+    $answques->execute();
     return $answques;
 }
 
-function selectIDQues($idcat)
+function selectIDQuestion($idcat)
 {
     $db = db();
-    $answquestions = count($db->query("SELECT id FROM questions WHERE id_category = '$idcat'")->fetchAll());
-    return $answquestions;
+    $answquestions = $db->prepare("SELECT COUNT(*) FROM questions WHERE id_category = :categoryId");
+    $answquestions->bindParam(':categoryId', $idcat);
+    $answquestions->execute();
+    $countVariable = $answquestions->fetch();
+    return $countVariable[0];
 }
 
-function deleteQues($idcat)
+function deleteQuestionInCategory($idcat)
 {
     $db = db();
     $quesdel = $db->prepare('DELETE FROM `questions` WHERE 	id_category = :qcategory');
@@ -30,7 +35,7 @@ function deleteQues($idcat)
     return $quesdel;
 }
 
-function deleteQuesID($del)
+function deleteQuestionByID($del)
 {
     $db = db();
     $datadel = $db->prepare('DELETE FROM `questions` WHERE id = :id');

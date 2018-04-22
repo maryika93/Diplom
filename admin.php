@@ -1,7 +1,7 @@
 <?php
 require_once 'vendor/autoload.php';
-require_once 'model/UsersDB.php';
-require_once 'model/connectDB.php';
+require_once 'model/User.php';
+require_once 'lib/connect.php';
 
 try {
     $db = db();
@@ -25,7 +25,7 @@ try {
             {
                 exit ("Вы ввели не всю информацию, вернитесь назад и заполните все поля!");
             }
-            $data = selectAllUs($login);
+            $data = selectAllUsers($login);
             foreach ($data as $rows) {
                 if (empty($rows['pass'])) {
                     exit ("Извините, введённый вами логин или пароль неверный. </br></br></br> <a href='reg.php'>Вернуться</a>");

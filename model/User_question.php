@@ -1,47 +1,47 @@
 <?php
 
-function insertUsQues()
+function insertUsersQuestion($name, $email, $ques, $date, $categoryID)
 {
     $db = db();
     $question = $db->prepare('INSERT INTO `users_questions`(`user`, `email`, `category`, `question`, `date`) VALUES (:user, :email, :category, :question, :date)');
-    $idcat = selectIDCat();
-
-    foreach ($idcat as $cat){
-        $question->bindParam(':category', $cat['id']);
-    }
-    $question->bindParam(':user', $_GET['name']);
-    $question->bindParam(':email', $_GET['email']);
-    $question->bindParam(':question', $_GET['question']);
-    $question->bindParam(':date', date("y.m.d.H:i:s"));
-
+    $question->bindParam(':user', $name);
+    $question->bindParam(':category', $categoryID);
+    $question->bindParam(':email', $email);
+    $question->bindParam(':question', $ques);
+    $question->bindParam(':date', $date);
     $question->execute();
     return $question;
 }
 
-function selectAllUsQues($idcat)
+function selectAllUsersQuestions($idcat)
 {
     $db = db();
-    $userques = $db->query("SELECT * FROM users_questions WHERE category = '$idcat'")->fetchAll();
+    $userques = $db->prepare("SELECT id, user, email, category, question, date FROM users_questions WHERE category = :category");
+    $userques->bindParam(':category', $idcat);
+    $userques->execute();
     return $userques;
 }
 
-function selectIDUsQues($idcat)
+function selectIDUsersQuestion($idcat)
 {
     $db = db();
-    $userquestions = count($db->query("SELECT id FROM users_questions WHERE category = '$idcat'")->fetchAll());
-    return $userquestions;
+    $userquestions = $db->prepare("SELECT COUNT(*) FROM users_questions WHERE category = :categoryId");
+    $userquestions->bindParam(':categoryId', $idcat);
+    $userquestions->execute();
+    $countVariable = $userquestions->fetch(PDO::FETCH_NUM);
+    return $countVariable[0];
 }
 
-function deleteUsQues($idcat)
+/*function deleteUsersQuestion($idcat)
 {
     $db = db();
     $uquesdel = $db->prepare('DELETE FROM `users_questions` WHERE category = :ucategory');
     $uquesdel->bindParam(':ucategory', $idcat);
     $uquesdel->execute();
     return $uquesdel;
-}
+}*/
 
-function updateUsQues($newname, $b)
+function updateUsersQuestion($newname, $b)
 {
     $db = db();
     $datadone = $db->prepare('UPDATE `users_questions` SET `user`=:user WHERE id = :id');
@@ -51,7 +51,7 @@ function updateUsQues($newname, $b)
     return $datadone;
 }
 
-function updateUsQuesQ($newquest, $a)
+function updateUsersQuestionQ($newquest, $a)
 {
     $db = db();
     $updques  = $db->prepare('UPDATE `users_questions` SET `question`=:quest WHERE id = :id');
@@ -61,7 +61,7 @@ function updateUsQuesQ($newquest, $a)
     return $updques;
 }
 
-function deleteUsQuesID($del)
+function deleteUsersQuestionID($del)
 {
     $db = db();
     $datadel = $db->prepare('DELETE FROM `users_questions` WHERE id = :id');
@@ -70,7 +70,7 @@ function deleteUsQuesID($del)
     return $datadel;
 }
 
-function updateUsQuesLog($newname, $author)
+function updateUsersQuestionAuthor($newname, $author)
 {
     $db = db();
     $datadone = $db->prepare('UPDATE `users_questions` SET `user`=:user WHERE login = :login');

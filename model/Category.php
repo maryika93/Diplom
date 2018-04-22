@@ -1,21 +1,22 @@
 <?php
 
-function selectCat()
+function selectCategories()
 {
     $db = db();
-    $cat  = $db->query('SELECT * FROM categories')->fetchAll();
+    $cat  = $db->query('SELECT id, category FROM categories')->fetchAll();
     return $cat;
 }
 
-function selectIDCat()
+function selectIDCategory($categ)
 {
     $db = db();
-    $categ = $_GET['category'];
-    $idcat = $db->query("SELECT id FROM categories WHERE category = '$categ'")->fetchAll();
+    $idcat = $db->prepare("SELECT id FROM categories WHERE category = :category");
+    $idcat->bindParam(':category', $categ);
+    $idcat->execute();
     return $idcat;
 }
 
-function insertCat($newcategory)
+function insertCategory($newcategory)
 {
     $db = db();
     $newcat = $db->prepare('INSERT INTO `categories`(`category`) VALUES (:cat)');
@@ -24,7 +25,7 @@ function insertCat($newcategory)
     return $newcat;
 }
 
-function deleteCat($delcat)
+function deleteCategory($delcat)
 {
     $db = db();
     $catdel = $db->prepare('DELETE FROM `categories` WHERE category = :category');

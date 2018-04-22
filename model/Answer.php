@@ -1,9 +1,9 @@
 <?php
 
-function selectAnsw()
+function selectAnswers()
 {
     $db = db();
-    $answ = $db->query('SELECT * FROM answers')->fetchAll();
+    $answ = $db->query('SELECT id, answer, id_question FROM answers')->fetchAll();
     return $answ;
 }
 ?>
