@@ -12,7 +12,7 @@ $twig   = new Twig_Environment($loader, array(
     'cache' => 'cash',
     'auto_reload' => true));
 
-$template = $twig->loadTemplate('index.tmpl');
+$template = $twig->loadTemplate('index.twig');
 
 $db = db();
 
