@@ -10,7 +10,7 @@ try {
         'cache' => 'cash',
         'auto_reload' => true));
 
-    $template = $twig->loadTemplate('admin.tmpl');
+    $template = $twig->loadTemplate('admin.twig');
     echo $twig->render($template);
 
     if (!empty($_POST)) {
