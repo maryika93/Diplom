@@ -3,24 +3,24 @@
 function selectQuestions()
 {
     $db = db();
-    $ques = $db->query('SELECT id, question, id_category, date, status FROM questions')->fetchAll();
+    $ques = $db->query('SELECT id, name, id_category, date, status FROM questions')->fetchAll();
     return $ques;
 }
 
-function selectAllQuestions($idcat)
+function selectAllQuestions($categoryID)
 {
     $db = db();
-    $answques = $db->prepare("SELECT id, question, id_category, date, status FROM questions WHERE id_category = :qcategory");
-    $answques->bindParam(':qcategory', $idcat);
+    $answques = $db->prepare("SELECT id, name, id_category, date, status FROM questions WHERE id_category = :qcategory");
+    $answques->bindParam(':qcategory', $categoryID);
     $answques->execute();
     return $answques;
 }
 
-function selectIDQuestion($idcat)
+function selectIDQuestion($categoryID)
 {
     $db = db();
     $answquestions = $db->prepare("SELECT COUNT(*) FROM questions WHERE id_category = :categoryId");
-    $answquestions->bindParam(':categoryId', $idcat);
+    $answquestions->bindParam(':categoryId', $categoryID);
     $answquestions->execute();
     $countVariable = $answquestions->fetch();
     return $countVariable[0];
@@ -57,20 +57,20 @@ function insertUsersQuestion($name, $email, $ques, $date, $categoryID)
     return $question;
 }
 
-function selectAllUsersQuestions($idcat)
+function selectAllUsersQuestions($categoryID)
 {
     $db = db();
     $userques = $db->prepare("SELECT id, user, email, category, question, date FROM users_questions WHERE category = :category");
-    $userques->bindParam(':category', $idcat);
+    $userques->bindParam(':category', $categoryID);
     $userques->execute();
     return $userques;
 }
 
-function selectIDUsersQuestion($idcat)
+function selectIDUsersQuestion($categoryID)
 {
     $db = db();
     $userquestions = $db->prepare("SELECT COUNT(*) FROM users_questions WHERE category = :categoryId");
-    $userquestions->bindParam(':categoryId', $idcat);
+    $userquestions->bindParam(':categoryId', $categoryID);
     $userquestions->execute();
     $countVariable = $userquestions->fetch(PDO::FETCH_NUM);
     return $countVariable[0];

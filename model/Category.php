@@ -3,34 +3,34 @@
 function selectCategories()
 {
     $db = db();
-    $cat  = $db->query('SELECT id, category FROM categories')->fetchAll();
-    return $cat;
+    $categories  = $db->query('SELECT id, name FROM categories')->fetchAll();
+    return $categories;
 }
 
 function selectIDCategory($categ)
 {
     $db = db();
-    $idcat = $db->prepare("SELECT id FROM categories WHERE category = :category");
-    $idcat->bindParam(':category', $categ);
-    $idcat->execute();
-    return $idcat;
+    $idcategory = $db->prepare("SELECT id FROM categories WHERE name = :category");
+    $idcategory->bindParam(':category', $categ);
+    $idcategory->execute();
+    return $idcategory;
 }
 
 function insertCategory($newcategory)
 {
     $db = db();
-    $newcat = $db->prepare('INSERT INTO `categories`(`category`) VALUES (:cat)');
-    $newcat->bindParam(':cat', $newcategory);
-    $newcat->execute();
-    return $newcat;
+    $newCategory = $db->prepare('INSERT INTO `categories`(`name`) VALUES (:category)');
+    $newCategory->bindParam(':category', $newcategory);
+    $newCategory->execute();
+    return $newCategory;
 }
 
 function deleteCategory($delcat)
 {
     $db = db();
-    $catdel = $db->prepare('DELETE FROM `categories` WHERE category = :category');
-    $catdel->bindParam(':category', $delcat);
-    $catdel->execute();
-    return $catdel;
+    $categorydelete = $db->prepare('DELETE FROM `categories` WHERE name = :category');
+    $categorydelete->bindParam(':category', $delcat);
+    $categorydelete->execute();
+    return $categorydelete;
 }
 ?>

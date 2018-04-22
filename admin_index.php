@@ -5,12 +5,10 @@ require_once 'model/Answer.php';
 require_once 'model/Category.php';
 require_once 'model/Question.php';
 require_once 'model/User.php';
-require_once 'model/User_question.php';
-
 
     $loader = new Twig_Loader_Filesystem('templates');
     $twig   = new Twig_Environment($loader, array(
-        'cache' => 'cash',
+        'cache' => 'cache',
         'auto_reload' => true));
 
     $template = $twig->loadTemplate('admin_index.twig');
@@ -18,42 +16,37 @@ require_once 'model/User_question.php';
     $db = db();
 
     $users  = selectUsers();
-    $cats  = selectCategories();
+    $categories  = selectCategories();
 
-    if(isset($_POST['seeques'])){
+    if(isset($_POST['seequestions'])){
 
-        $categ = $_POST['categories'];
-        foreach ($cats as $cat){
-            if ($cat['category'] == $categ){
-                $idcat = $cat['id'];
-            }
-        }
-        $answquestions = selectIDQuestion($idcat);
-        $userquestions = selectIDUsersQuestion($idcat);
-        $numberquestions = $answquestions + $userquestions;
+        $categoryID = $_POST['categoryID'];
+        $answeredQuestions = selectIDQuestion($categoryID);
+        $userQuestions = selectIDUsersQuestion($categoryID);
+        $numberquestions = $answeredQuestions + $userQuestions;
 
-        $answques = selectAllQuestions($idcat);
-        $userques = selectAllUsersQuestions($idcat);
+        $allAnsweredQuestions = selectAllQuestions($categoryID);
+        $allUsersQuestions = selectAllUsersQuestions($categoryID);
 
     }
     else{
-        $answquestions = null;
-        $userquestions = null;
+        $answeredQuestions = null;
+        $userQuestions = null;
         $numberquestions = null;
-        $answques = null;
-        $userques = null;
+        $allAnsweredQuestions = null;
+        $allUsersQuestions = null;
     }
 
 
-    echo $twig->render($template, array('users' => $users, 'cats' => $cats, 'answquestions' => $answquestions, 'userquestions' => $userquestions, 'numberquestions' => $numberquestions,
-        'answques' => $answques, 'userques' => $userques));
+    echo $twig->render($template, array('users' => $users, 'categories' => $categories, 'answeredQuestions' => $answeredQuestions, 'userQuestions' => $userQuestions, 'numberquestions' => $numberquestions,
+        'allAnsweredQuestions' => $allAnsweredQuestions, 'allUsersQuestions' => $allUsersQuestions));
 
 
 
 
     if (!empty($_POST)) {
 
-        if (isset($_POST['reg'])) {
+        if (isset($_POST['registrate'])) {
 
             if (isset($_POST['login'])) {
                 $login = $_POST['login'];
@@ -64,7 +57,7 @@ require_once 'model/User_question.php';
             $data = selectAllUsers($login);
             foreach ($data as $rows) {
                 if (!empty($rows['id'])) {
-                    exit("Извините, введённый вами логин уже зарегистрирован. Введите другой логин. </br></br></br> <a href='reg.php'>Вернуться</a>");
+                    exit("Извините, введённый вами логин уже зарегистрирован. Введите другой логин. </br></br></br> <a href='admin_index.php'>Вернуться</a>");
                 }
             }
             $result = insertUser($login, $password);
@@ -73,14 +66,14 @@ require_once 'model/User_question.php';
 
         if(isset($_POST['change'])){
             $newpassword = md5($_POST['newpassword']);
-            $newlog = $_POST['admins'];
-            $datadone = updateUser($newpassword, $newlog);
+            $newlogin = $_POST['admins'];
+            $datadone = updateUser($newpassword, $newlogin);
             die;
         }
 
         if(isset($_POST['deleteadmin'])){
-            $log = $_POST['admins'];
-            $datadel = deleteUser($log);
+            $login = $_POST['admins'];
+            $datadel = deleteUser($login);
             die;
         }
 
@@ -94,13 +87,8 @@ require_once 'model/User_question.php';
             $delcat = $_POST['categories'];
             $catdel = deleteCategory($delcat);
 
-            $categ = $_POST['categories'];
-            foreach ($cats as $cat){
-                if ($cat['category'] == $categ){
-                    $idcat = $cat['id'];
-                }
-            }
-            $uquesdel = deleteQuestionInCategory($idcat);
+            $categ = $_POST['categoryID'];
+            $uquesdel = deleteQuestionInCategory($categ);
             die;
         }
         foreach ($_POST as $key => $value){

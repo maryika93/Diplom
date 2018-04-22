@@ -7,11 +7,11 @@ function selectUsers()
     return $users;
 }
 
-function deleteUser($log)
+function deleteUser($login)
 {
     $db = db();
     $datadel = $db->prepare('DELETE FROM `users` WHERE login = :login');
-    $datadel->bindParam(':login', $log);
+    $datadel->bindParam(':login', $login);
     $datadel->execute();
     return $datadel;
 }
@@ -35,12 +35,12 @@ function selectAllUsers($login)
     return $data;
 }
 
-function updateUser($newpassword, $newlog)
+function updateUser($newpassword, $newlogin)
 {
     $db = db();
     $datadone = $db->prepare('UPDATE `users` SET `pass`=:newpass WHERE login = :login');
     $datadone->bindParam(':newpass', $newpassword);
-    $datadone->bindParam(':login', $newlog);
+    $datadone->bindParam(':login', $newlogin);
     $datadone->execute();
     return $datadone;
 }

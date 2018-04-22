@@ -3,7 +3,7 @@
 function selectAnswers()
 {
     $db = db();
-    $answ = $db->query('SELECT id, answer, id_question FROM answers')->fetchAll();
-    return $answ;
+    $answers = $db->query('SELECT id, name, id_question FROM answers')->fetchAll();
+    return $answers;
 }
 ?>
