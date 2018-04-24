@@ -9,9 +9,9 @@ try {
     $twig   = new Twig_Environment($loader, array(
         'cache' => 'cash',
         'auto_reload' => true));
-
+$err= "";
     $template = $twig->loadTemplate('admin.twig');
-    echo $twig->render($template);
+
 
     if (!empty($_POST)) {
         if (isset($_POST['inp'])) {
@@ -21,27 +21,25 @@ try {
             if (isset($_POST['password'])) {
                 $password = md5($_POST['password']);
             }
-            if (empty($login) or empty($password))
-            {
-                exit ("Вы ввели не всю информацию, вернитесь назад и заполните все поля!");
-            }
+
             $data = selectAllUsers($login);
-            foreach ($data as $rows) {
-                if (empty($rows['pass'])) {
-                    exit ("Извините, введённый вами логин или пароль неверный. </br></br></br> <a href='reg.php'>Вернуться</a>");
+
+                if (empty($data[0]['pass'])) {
+                    $err = "Извините, введённый вами логин или пароль неверный";
                 }
                 else {
-                    if ($rows['pass'] == $password) {
-                        $_SESSION['login'] = $rows['login'];
-                        $_SESSION['id']    = $rows['id'];
+                    if ($data[0]['pass'] === $password) {
+                        $_SESSION['login'] = $data[0]['login'];
+                        $_SESSION['id']    = $data[0]['id'];
                         header('Location: admin_index.php');
-                    } else {
-                        exit ("Извините, введённый вами логин или пароль неверный. </br></br></br> <a href='reg.php'>Вернуться</a>");
+                    }
+                    else {
+                        $err = "Извините, введённый вами логин или пароль неверный";
                     }
                 }
-            }
         }
     }
+    echo $twig->render($template, array('err' => $err));
 }
 
 catch(PDOException $e)

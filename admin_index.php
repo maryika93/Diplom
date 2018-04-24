@@ -15,6 +15,7 @@ require_once 'model/User.php';
 
     $db = db();
 
+    $err = "";
     $users  = selectUsers();
     $categories  = selectCategories();
 
@@ -37,31 +38,29 @@ require_once 'model/User.php';
         $allUsersQuestions = null;
     }
 
-
-    echo $twig->render($template, array('users' => $users, 'categories' => $categories, 'answeredQuestions' => $answeredQuestions, 'userQuestions' => $userQuestions, 'numberquestions' => $numberquestions,
-        'allAnsweredQuestions' => $allAnsweredQuestions, 'allUsersQuestions' => $allUsersQuestions));
-
-
-
-
     if (!empty($_POST)) {
 
         if (isset($_POST['registrate'])) {
 
-            if (isset($_POST['login'])) {
+            if (!empty($_POST['login'])) {
                 $login = $_POST['login'];
+                $data = selectAllUsers($login);
             }
-            if (isset($_POST['password'])) {
+            if (!empty($_POST['password'])) {
                 $password = md5($_POST['password']);
             }
-            $data = selectAllUsers($login);
-            foreach ($data as $rows) {
-                if (!empty($rows['id'])) {
-                    exit("Извините, введённый вами логин уже зарегистрирован. Введите другой логин. </br></br></br> <a href='admin_index.php'>Вернуться</a>");
+
+                if (!empty($data[0]['id'])) {
+                    $err = "Извините, введённый вами логин уже зарегистрирован. Введите другой логин";
                 }
-            }
-            $result = insertUser($login, $password);
-            die;
+                else{
+                if(isset($login) & isset($password)){
+                    $result = insertUser($login, $password);
+                }
+                else{
+                    $err = "Введите желаемый логин и пароль";
+                }
+                }
         }
 
         if(isset($_POST['change'])){
@@ -86,26 +85,21 @@ require_once 'model/User.php';
         if(isset($_POST['deletecat'])){
             $delcat = $_POST['categories'];
             $catdel = deleteCategory($delcat);
-
             $categ = $_POST['categoryID'];
             $uquesdel = deleteQuestionInCategory($categ);
             die;
         }
-        foreach ($_POST as $key => $value){
-            if($key[0] === 'b' && $value !== '') {
-                if (isset($_POST['authorname'])) {
-                    $b        = substr($key, 1); //id
-                    $newname  = $_POST['authorname'];
-                    $datadone = updateUsersQuestion($newname, $b);
-                }
-            }
-            if($key[0] === 'a' && $value !== ''){
-                if (isset($_POST['questext'])) {
-                    $newquest = $_POST['questext'];
-                    $a        = substr($key, 1); //id
-                    $updques  = updateUsersQuestionQ($newquest, $a);
-                }
-            }
+
+        if (isset($_POST['updateAuthor'])) {
+            $b        = $_POST['updateAuthor']; //id
+            $newname  = $_POST['authorName'];
+            $datadone = updateUsersQuestion($newname, $b);
+        }
+
+        if (isset($_POST['updateQuestion'])) {
+            $newquest = $_POST['newquestion'];
+            $a        = $_POST['updateQuestion']; //id
+            $updques  = updateUsersQuestionQ($newquest, $a);
         }
     }
 
@@ -128,3 +122,6 @@ if (!empty($_GET)) {
         die;
     }
 }
+
+echo $twig->render($template, array('users' => $users, 'categories' => $categories, 'answeredQuestions' => $answeredQuestions, 'userQuestions' => $userQuestions, 'numberquestions' => $numberquestions,
+    'allAnsweredQuestions' => $allAnsweredQuestions, 'allUsersQuestions' => $allUsersQuestions, 'err' => $err));

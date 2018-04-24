@@ -32,7 +32,8 @@ function selectAllUsers($login)
     $data = $db->prepare("SELECT id, login, pass, role FROM `users` WHERE login = :login");
     $data->bindParam(':login', $login);
     $data->execute();
-    return $data;
+    $result = $data->fetchAll(PDO::FETCH_ASSOC);
+    return $result;
 }
 
 function updateUser($newpassword, $newlogin)

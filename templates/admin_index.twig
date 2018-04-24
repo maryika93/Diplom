@@ -24,7 +24,8 @@
         <label>Логин</label>
         <input type="text" placeholder="Логин" name="login">
         <label>Пароль</label>
-        <input type="password"  placeholder="Пароль" name="password">
+        <input type="password"  placeholder="Пароль" name="password"><br/><br/>
+        <p> {{ err }} </p>
         <input type="submit" name="registrate" value="Создать"><br/><br/>
         <label>Посмотреть данные по категории</label>
         <select name = 'categoryID'>
@@ -35,7 +36,7 @@
         <input type="submit" name="seequestions" value="Посмотреть">
         <input type="submit" name="deletecat" value="Удалить эту категорию и вопросы в ней"><br/>
 
-        <table border="1", cellpadding="10", width="100%">
+        <table border="1" cellpadding="10" width="100%">
             <tr>
                 <td align="center"> Всего вопросов в теме </td>
                 <td align="center">{{ numberquestions }}</td>
@@ -49,7 +50,7 @@
                 <td align="center">{{ userQuestions }}</td>
             </tr>
         </table><br/><br/>
-        <table border="1", cellpadding="10", width="100%">
+        <table border="1" cellpadding="10" width="100%">
             <tr>
                 <td align="center"> <strong> Вопрос </strong> </td>
                 <td align="center"> <strong> Дата создания </strong> </td>
@@ -75,7 +76,7 @@
             </tr>
             {% endfor %}
         </table><br/><br/>
-        <table border="1", cellpadding="10", width="100%">
+        <table border="1" cellpadding="10" width="100%">
             <tr>
                 <td align="center"> <strong> Вопрос </strong> </td>
                 <td align="center"> <strong> Автор </strong> </td>
@@ -85,12 +86,14 @@
                 <tr>
                     <td align="center">{{ allUsersQuestion.question }}</td>
                     <td align="center">{{ allUsersQuestion.user }}</td>
-                    <td align="center"><input type="text" placeholder="Имя автора" name="authorname"><input type="submit" name="b{{ allUsersQuestion.id }}" value="Изменить имя автора"><br/>
-                        <input type="text" placeholder="Текст вопроса" name="questext"><input type="submit" name="a{{ allUsersQuestion.id }}" value="Изменить текст вопроса">
+                    <td align="center"><input type="text"  placeholder="имя автора" name="authorName">
+                        <button type="submit" name="updateAuthor" value="{{ allUsersQuestion.id }}">Изменить имя автора</button><br/>
+                        <input type="text"  placeholder="вопрос" name="newquestion">
+                        <button type="submit" name="updateQuestion" value="{{ allUsersQuestion.id }}">Изменить текст вопроса</button>
+                    </td>
                 </tr>
             {% endfor %}
         </table><br/><br/>
-
         <label>Создать новую категорию</label>
         <input type="text"  placeholder="категория" name="newcat">
         <input type="submit" name="createnewcat" value="Создать"><br/><br/>
