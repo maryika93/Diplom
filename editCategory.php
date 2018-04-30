@@ -37,29 +37,27 @@ echo $twig->render($template, array('categories' => $categories,'answeredQuestio
     'allAnsweredQuestions' => $allAnsweredQuestions, 'allUsersQuestions' => $allUsersQuestions));
 if (!empty($_POST)) {
 
- /*   echo '<pre>';
-    print_r($_POST);
-*/
+
     if (isset($_POST['updateAuthor'])) {
         $b        = $_POST['updateAuthor']; //id
-        $newname  = $_POST['authorName'];
+        $newname  = $_POST['authorName'][$b];
         $datadone = updateUsersQuestion($newname, $b);
     }
     if (isset($_POST['updateAuthorAnswered'])) {
         $b        = $_POST['updateAuthorAnswered']; //id
-        $newname  = $_POST['authorNameAnswered'];
+        $newname  = $_POST['authorNameAnswered'][$b];
         $datadone = updateAnsweredQuestion($newname, $b);
     }
 
     if (isset($_POST['updateQuestion'])) {
-        $newquest = $_POST['newquestion'];
         $a        = $_POST['updateQuestion']; //id
+        $newquest = $_POST['newquestion'][$a];
         $updques  = updateUsersQuestionQ($newquest, $a);
     }
 
     if (isset($_POST['updateQuestionAnswered'])) {
-        $newquest = $_POST['newquestionAnswered'];
         $a        = $_POST['updateQuestionAnswered']; //id
+        $newquest = $_POST['newquestionAnswered'][$a];
         $updques  = updateUsersQuestionQAnswered($newquest, $a);
     }
 

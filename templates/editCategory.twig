@@ -40,9 +40,9 @@
                             {% endfor %}
                         </select>
                         <input type="submit" name="changeCategory" value="Изменить"></td>
-                    <td align="center"><input type="text"  placeholder="имя автора" name="authorNameAnswered">
+                    <td align="center"><input type="text"  placeholder="имя автора" name="authorNameAnswered[{{ allAnsweredQuestion.id }}]">
                         <button type="submit" name="updateAuthorAnswered" value="{{ allAnsweredQuestion.id }}">Изменить имя автора</button></td>
-                    <td align="center"><input type="text"  placeholder="вопрос" name="newquestionAnswered">
+                    <td align="center"><input type="text"  placeholder="вопрос" name="newquestionAnswered[{{ allAnsweredQuestion.id }}]">
                         <button type="submit" name="updateQuestionAnswered" value="{{ allAnsweredQuestion.id }}">Изменить текст вопроса</button></td>
                     <td align="center"><a href="editCategory.php?deleteAnsweredQuestion={{ allAnsweredQuestion.id }}">Удалить</a>
                         <a href="editCategory.php?hideansw={{ allAnsweredQuestion.id }}">Скрыть</a>
@@ -62,9 +62,9 @@
                             {% endfor %}
                         </select>
                         <input type="submit" name="changeCategory" value="Изменить"></td>
-                    <td align="center"><input type="text"  placeholder="имя автора" name="authorName">
+                    <td align="center"><input type="text"  placeholder="имя автора" name="authorName[{{ allUsersQuestion.id }}]">
                         <button type="submit" name="updateAuthor" value="{{ allUsersQuestion.id }}">Изменить имя автора</button></td>
-                    <td align="center"><input type="text"  placeholder="вопрос" name="newquestion">
+                    <td align="center"><input type="text"  placeholder="вопрос" name="newquestion[{{ allUsersQuestion.id }}]">
                         <button type="submit" name="updateQuestion" value="{{ allUsersQuestion.id }}">Изменить текст вопроса</button></td>
                     <td align="center"><a href="editCategory.php?deleteQuestion={{ allUsersQuestion.id }}">Удалить</a>
                         <a href="editCategory.php?hideansw={{ allUsersQuestion.id }}">Скрыть</a>
