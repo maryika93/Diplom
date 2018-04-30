@@ -14,6 +14,7 @@ $template = $twig->loadTemplate('editCategory.twig');
 
 $db = db();
 $categories  = selectCategories();
+$answers = selectAnswers();
 
 if(isset($_POST['seequestions'])){
 
@@ -24,7 +25,6 @@ if(isset($_POST['seequestions'])){
 
     $allAnsweredQuestions = selectAllQuestions($categoryID);
     $allUsersQuestions = selectAllUsersQuestions($categoryID);
-
 }
 else{
     $answeredQuestions = null;
@@ -33,7 +33,7 @@ else{
     $allAnsweredQuestions = null;
     $allUsersQuestions = null;
 }
-echo $twig->render($template, array('categories' => $categories,'answeredQuestions' => $answeredQuestions, 'userQuestions' => $userQuestions, 'numberquestions' => $numberquestions,
+echo $twig->render($template, array('categories' => $categories, 'answers' => $answers, 'answeredQuestions' => $answeredQuestions, 'userQuestions' => $userQuestions, 'numberquestions' => $numberquestions,
     'allAnsweredQuestions' => $allAnsweredQuestions, 'allUsersQuestions' => $allUsersQuestions));
 if (!empty($_POST)) {
 
@@ -71,6 +71,18 @@ if (!empty($_POST)) {
         $a        = $_POST['changeCategoryUsers']; //id
         $newcat = $_POST['newCategoryIDUsers'][$a];
         $datadone = updateUsersQuestionCategory($newcat, $a);
+    }
+
+    if (isset($_POST['updateAnswer'])) {
+        $a        = $_POST['updateAnswer']; //id
+        $newname = $_POST['answer'][$a];
+        $datadone = updateAnswer($newname, $a);
+    }
+
+    if (isset($_POST['updateAnswerUser'])) {
+        $a        = $_POST['updateAnswerUser']; //id
+        $newname = $_POST['answerUser'][$a];
+        $datadone = updateAnswerUser($newname, $a);
     }
 }
 

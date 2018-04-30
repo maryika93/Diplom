@@ -72,6 +72,32 @@
                 </tr>
             {% endfor %}
         </table><br/><br/>
+
+        <table border="1" cellpadding="10" width="100%">
+            <tr>
+                <td align="center"> <strong> Вопрос </strong> </td>
+                <td align="center"> <strong> Ответ </strong> </td>
+                <td align="center"> <strong> Изменить ответ на вопрос </strong> </td>
+            </tr>
+            {% for allAnsweredQuestion in allAnsweredQuestions %}
+                <tr>
+                    <td align="center">{{ allAnsweredQuestion.name }}</td>
+                    {% for answer in answers if answer.id == allAnsweredQuestion.id%}
+                    <td align="center">{{ answer.name }}</td>
+                    {% endfor %}
+                    <td align="center"><input type="text"  placeholder="ответ" name="answer[{{ allAnsweredQuestion.id }}]">
+                        <button type="submit" name="updateAnswer" value="{{ allAnsweredQuestion.id }}">Изменить ответ</button></td>
+                </tr>
+            {% endfor %}
+            {% for allUsersQuestion in allUsersQuestions %}
+                <tr>
+                    <td align="center">{{ allUsersQuestion.question }}</td>
+                    <<td align="center">{{ allUsersQuestion.answer }}</td>
+                    <td align="center"><input type="text"  placeholder="ответ" name="answerUser[{{ allUsersQuestion.id }}]">
+                        <button type="submit" name="updateAnswerUser" value="{{ allUsersQuestion.id }}">Изменить ответ</button></td>
+                </tr>
+            {% endfor %}
+        </table><br/><br/>
     </form>
 </section>
 </body>

@@ -70,7 +70,7 @@ function insertUsersQuestion($name, $email, $ques, $date, $categoryID)
 function selectAllUsersQuestions($categoryID)
 {
     $db = db();
-    $userques = $db->prepare("SELECT id, user, email, categoryID, question,status, date FROM users_questions WHERE categoryID = :categoryId");
+    $userques = $db->prepare("SELECT id, user, email, categoryID, question,status, answer, date FROM users_questions WHERE categoryID = :categoryId");
     $userques->bindParam(':categoryId', $categoryID);
     $userques->execute();
     $result = $userques->fetchAll(PDO::FETCH_ASSOC);
