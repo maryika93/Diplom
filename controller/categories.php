@@ -13,7 +13,7 @@ $twig   = new Twig_Environment($loader, array(
 $template = $twig->loadTemplate('categories.twig');
 
 $db = db();
-$categories  = selectCategories();
+$categories  = selectCategories();$categories  = selectCategories();
 
 if(isset($_POST['seequestions'])){
 
