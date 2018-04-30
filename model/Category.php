@@ -28,7 +28,7 @@ function insertCategory($newcategory)
 function deleteCategory($delcat)
 {
     $db = db();
-    $categorydelete = $db->prepare('DELETE FROM `categories` WHERE name = :category');
+    $categorydelete = $db->prepare('DELETE FROM `categories` WHERE id = :category');
     $categorydelete->bindParam(':category', $delcat);
     $categorydelete->execute();
     return $categorydelete;

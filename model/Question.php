@@ -3,14 +3,14 @@
 function selectQuestions()
 {
     $db = db();
-    $ques = $db->query('SELECT id, name, id_category, date, status FROM questions')->fetchAll();
+    $ques = $db->query('SELECT id, name, id_category, date, status, user, email FROM questions')->fetchAll();
     return $ques;
 }
 
 function selectAllQuestions($categoryID)
 {
     $db = db();
-    $answques = $db->prepare("SELECT id, name, id_category, date, status FROM questions WHERE id_category = :qcategory");
+    $answques = $db->prepare("SELECT id, name, id_category, date, status, user, email FROM questions WHERE id_category = :qcategory");
     $answques->bindParam(':qcategory', $categoryID);
     $answques->execute();
     $result = $answques->fetchAll(PDO::FETCH_ASSOC);
@@ -45,6 +45,15 @@ function deleteQuestionByID($del)
     return $datadel;
 }
 
+function deleteUsersQuestionByID($del)
+{
+    $db = db();
+    $datadel = $db->prepare('DELETE FROM `users_questions` WHERE id = :id');
+    $datadel->bindParam(':id', $del);
+    $datadel->execute();
+    return $datadel;
+}
+
 function insertUsersQuestion($name, $email, $ques, $date, $categoryID)
 {
     $db = db();
@@ -61,7 +70,7 @@ function insertUsersQuestion($name, $email, $ques, $date, $categoryID)
 function selectAllUsersQuestions($categoryID)
 {
     $db = db();
-    $userques = $db->prepare("SELECT id, user, email, categoryID, question, date FROM users_questions WHERE categoryID = :categoryId");
+    $userques = $db->prepare("SELECT id, user, email, categoryID, question,status, date FROM users_questions WHERE categoryID = :categoryId");
     $userques->bindParam(':categoryId', $categoryID);
     $userques->execute();
     $result = $userques->fetchAll(PDO::FETCH_ASSOC);
@@ -88,6 +97,16 @@ function updateUsersQuestion($newname, $b)
     return $datadone;
 }
 
+function updateAnsweredQuestion($newname, $b)
+{
+    $db = db();
+    $datadone = $db->prepare('UPDATE `questions` SET `user`=:user WHERE id = :id');
+    $datadone->bindParam(':user', $newname);
+    $datadone->bindParam(':id', $b);
+    $datadone->execute();
+    return $datadone;
+}
+
 function updateUsersQuestionQ($newquest, $a)
 {
     $db = db();
@@ -98,6 +117,15 @@ function updateUsersQuestionQ($newquest, $a)
     return $updques;
 }
 
+function updateUsersQuestionQAnswered($newquest, $a)
+{
+    $db = db();
+    $updques  = $db->prepare('UPDATE `questions` SET `name`=:quest WHERE id = :id');
+    $updques->bindParam(':quest', $newquest);
+    $updques->bindParam(':id', $a);
+    $updques->execute();
+    return $updques;
+}
 function deleteUsersQuestionID($del)
 {
     $db = db();

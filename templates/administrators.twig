@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Админка</title>
+</head>
+<body>
+<header>
+</header>
+<section>
+<form method="post" action="" enctype="multipart/form-data">
+    <label>Список администраторов</label>
+    <select name = 'admins'>
+        {% for user in users %}
+            <option value = "{{ user.login }}" > {{ user.login }} </option>
+        {% endfor %}
+    </select>
+    <label>Изменить пароль этого администратора на: </label>
+    <input type="text" placeholder="Новый пароль" name="newpassword">
+    <input type="submit" name="change" value="Изменить">
+    <input type="submit" name="deleteadmin" value="Удалить этого администратора"><br/><br/>
+    <label>Создать нового администратора:</label><br/>
+    <label>Логин</label>
+    <input type="text" placeholder="Логин" name="login">
+    <label>Пароль</label>
+    <input type="password"  placeholder="Пароль" name="password">
+    <input type="submit" name="registrate" value="Создать"><br/><br/>
+    <p> {{ err }} </p>
+</form>
+</section>
+</body>
+</html>
