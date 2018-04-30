@@ -34,12 +34,12 @@
                     <td align="center">{{ allAnsweredQuestion.email }}</td>
                     <td align="center">{{ allAnsweredQuestion.date }}</td>
                     <td align="center"> {{ allAnsweredQuestion.status }} </td>
-                    <td align="center"> <select name = 'newCategoryID'>
+                    <td align="center"> <select name = "newCategoryID[{{ allAnsweredQuestion.id }}]">
                             {% for category in categories %}
                                 <option value = "{{ category.id }}" > {{ category.name }} </option>
                             {% endfor %}
                         </select>
-                        <input type="submit" name="changeCategory" value="Изменить"></td>
+                        <button type="submit" name="changeCategory" value="{{ allAnsweredQuestion.id }}">Изменить категорию</button></td>
                     <td align="center"><input type="text"  placeholder="имя автора" name="authorNameAnswered[{{ allAnsweredQuestion.id }}]">
                         <button type="submit" name="updateAuthorAnswered" value="{{ allAnsweredQuestion.id }}">Изменить имя автора</button></td>
                     <td align="center"><input type="text"  placeholder="вопрос" name="newquestionAnswered[{{ allAnsweredQuestion.id }}]">
@@ -56,12 +56,12 @@
                     <td align="center">{{ allUsersQuestion.email }}</td>
                     <td align="center">{{ allUsersQuestion.date }}</td>
                     <td align="center"> {{ allUsersQuestion.status }} </td>
-                    <td align="center"> <select name = 'newCategory'>
+                    <td align="center"> <select name = "newCategoryIDUsers[{{ allUsersQuestion.id }}]">
                             {% for category in categories %}
                                 <option value = "{{ category.id }}" > {{ category.name }} </option>
                             {% endfor %}
                         </select>
-                        <input type="submit" name="changeCategory" value="Изменить"></td>
+                        <button type="submit" name="changeCategoryUsers" value="{{ allUsersQuestion.id }}">Изменить категорию</button></td>
                     <td align="center"><input type="text"  placeholder="имя автора" name="authorName[{{ allUsersQuestion.id }}]">
                         <button type="submit" name="updateAuthor" value="{{ allUsersQuestion.id }}">Изменить имя автора</button></td>
                     <td align="center"><input type="text"  placeholder="вопрос" name="newquestion[{{ allUsersQuestion.id }}]">

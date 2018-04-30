@@ -62,8 +62,15 @@ if (!empty($_POST)) {
     }
 
     if (isset($_POST['changeCategory'])) {
-        $newCategory = $_POST['newCategoryID'];
-        echo $newCategory;
+        $a        = $_POST['changeCategory']; //id
+        $newcat = $_POST['newCategoryID'][$a];
+        $datadone = updateAnsweredQuestionCategory($newcat, $a);
+    }
+
+    if (isset($_POST['changeCategoryUsers'])) {
+        $a        = $_POST['changeCategoryUsers']; //id
+        $newcat = $_POST['newCategoryIDUsers'][$a];
+        $datadone = updateUsersQuestionCategory($newcat, $a);
     }
 }
 

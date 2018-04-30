@@ -107,6 +107,16 @@ function updateAnsweredQuestion($newname, $b)
     return $datadone;
 }
 
+function updateAnsweredQuestionCategory($newcat, $b)
+{
+    $db = db();
+    $datadone = $db->prepare('UPDATE `questions` SET `id_category`=:category WHERE id = :id');
+    $datadone->bindParam(':category', $newcat);
+    $datadone->bindParam(':id', $b);
+    $datadone->execute();
+    return $datadone;
+}
+
 function updateUsersQuestionQ($newquest, $a)
 {
     $db = db();
@@ -115,6 +125,16 @@ function updateUsersQuestionQ($newquest, $a)
     $updques->bindParam(':id', $a);
     $updques->execute();
     return $updques;
+}
+
+function updateUsersQuestionCategory($newcat, $b)
+{
+    $db = db();
+    $datadone = $db->prepare('UPDATE `users_questions` SET `categoryID`=:category WHERE id = :id');
+    $datadone->bindParam(':category', $newcat);
+    $datadone->bindParam(':id', $b);
+    $datadone->execute();
+    return $datadone;
 }
 
 function updateUsersQuestionQAnswered($newquest, $a)
