@@ -8,10 +8,6 @@ if (!isset($_SESSION['login'])){
     exit;
 }
 
-if (!isset($_POST['inp'])) {
-    include 'controller/auth.php';
-    exit;
-}
 if (isset($_GET['c'])) {
     if ($_GET['c'] == 'administrators') {
         include 'controller/administrators.php';
