@@ -28,15 +28,7 @@ try {
             }
         }
     }
-
-    if ((isset($_SESSION['login'])) || ((isset($_GET['c'])) && (($_GET['c'] == 'back')))) {
-        $loader   = new Twig_Loader_Filesystem('templates');
-        $twig     = new Twig_Environment($loader, array(
-            'cache' => 'cache',
-            'auto_reload' => true));
-        $template = $twig->loadTemplate('admin_index.twig');
-        echo $twig->render($template);
-    } else {
+    
         $loader   = new Twig_Loader_Filesystem('templates');
         $twig     = new Twig_Environment($loader, array(
             'cache' => 'cash',
@@ -44,7 +36,6 @@ try {
         $err      = "";
         $template = $twig->loadTemplate('admin.twig');
         echo $twig->render($template, array('err' => $err));
-    }
 }
 catch(PDOException $e)
 {
