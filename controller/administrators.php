@@ -13,6 +13,7 @@ $template = $twig->loadTemplate('administrators.twig');
 $db = db();
 
 $err = "";
+
 $users  = selectUsers();
 
 echo $twig->render($template, array('users' => $users));

@@ -7,15 +7,6 @@ function selectCategories()
     return $categories;
 }
 
-function selectIDCategory($categ)
-{
-    $db = db();
-    $idcategory = $db->prepare("SELECT id FROM categories WHERE name = :category");
-    $idcategory->bindParam(':category', $categ);
-    $idcategory->execute();
-    return $idcategory;
-}
-
 function insertCategory($newcategory)
 {
     $db = db();

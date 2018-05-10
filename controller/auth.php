@@ -14,7 +14,7 @@ try {
                 $password = md5($_POST['password']);
             }
 
-            $data = selectAllUsers($login);
+            $data = selectUser($login);
 
             if (empty($data[0]['pass'])) {
                 $err = "Извините, введённый вами логин или пароль неверный";

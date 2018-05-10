@@ -26,7 +26,7 @@ function insertUser($login, $password)
     return $result;
 }
 
-function selectAllUsers($login)
+function selectUser($login)
 {
     $db = db();
     $data = $db->prepare("SELECT id, login, pass, role FROM `users` WHERE login = :login");
