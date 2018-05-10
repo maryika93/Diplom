@@ -3,6 +3,11 @@ require_once 'vendor/autoload.php';
 require_once 'model/User.php';
 require_once 'lib/connect.php';
 
+if (!isset($_SESSION['login'])){
+    include 'controller/auth.php';
+    exit;
+}
+
 if (!isset($_POST['inp'])) {
     include 'controller/auth.php';
     exit;
