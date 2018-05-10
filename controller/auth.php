@@ -29,7 +29,6 @@ try {
             }
         }
     }
-
     $err      = "";
     $twig     = twig();
     echo $twig->render('admin.twig', array('err' => $err));
