@@ -4,14 +4,9 @@ require_once 'lib/connect.php';
 require_once 'model/Answer.php';
 require_once 'model/Category.php';
 require_once 'model/Question.php';
+require_once 'lib/twig.php';
 
-$loader = new Twig_Loader_Filesystem('templates');
-$twig   = new Twig_Environment($loader, array(
-    'cache' => 'cache',
-    'auto_reload' => true));
-
-$template = $twig->loadTemplate('categories.twig');
-
+$twig   = twig();
 $db = db();
 $categories  = selectCategories();$categories  = selectCategories();
 
@@ -34,7 +29,7 @@ else{
     $allUsersQuestions = null;
 }
 
-echo $twig->render($template, array('categories' => $categories, 'answeredQuestions' => $answeredQuestions, 'userQuestions' => $userQuestions, 'numberquestions' => $numberquestions,
+echo $twig->render('categories.twig', array('categories' => $categories, 'answeredQuestions' => $answeredQuestions, 'userQuestions' => $userQuestions, 'numberquestions' => $numberquestions,
     'allAnsweredQuestions' => $allAnsweredQuestions, 'allUsersQuestions' => $allUsersQuestions));
 
 if(isset($_POST['deletecat'])){

@@ -5,21 +5,16 @@ require_once 'model/Answer.php';
 require_once 'model/Category.php';
 require_once 'model/Question.php';
 require_once 'model/User.php';
+require_once 'lib/twig.php';
 
-$loader = new Twig_Loader_Filesystem('templates');
-$twig   = new Twig_Environment($loader, array(
-    'cache' => 'cache',
-    'auto_reload' => true));
-
-$template = $twig->loadTemplate('index.twig');
-
+$twig = twig();
 $db = db();
 
 $categories  = selectCategories();
 $questions = selectQuestions();
 $answers = selectAnswers();
 
-echo $twig->render($template, array('categories' => $categories, 'questions' => $questions, 'answers' => $answers));
+echo $twig->render('index.twig', array('categories' => $categories, 'questions' => $questions, 'answers' => $answers));
 
 if(!empty($_POST['send'])){
     $name = $_POST['name'];

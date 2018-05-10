@@ -2,21 +2,16 @@
 require_once 'vendor/autoload.php';
 require_once 'lib/connect.php';
 require_once 'model/User.php';
+require_once 'lib/twig.php';
 
-$loader = new Twig_Loader_Filesystem('templates');
-$twig   = new Twig_Environment($loader, array(
-    'cache' => 'cache',
-    'auto_reload' => true));
-
-$template = $twig->loadTemplate('administrators.twig');
-
+$twig   = twig();
 $db = db();
 
 $err = "";
 
 $users  = selectUsers();
 
-echo $twig->render($template, array('users' => $users));
+echo $twig->render('administrators.twig', array('users' => $users));
 
 if (!empty($_POST)) {
 

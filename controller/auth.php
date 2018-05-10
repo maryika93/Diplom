@@ -2,6 +2,7 @@
 require_once 'vendor/autoload.php';
 require_once 'model/User.php';
 require_once 'lib/connect.php';
+require_once 'lib/twig.php';
 
 try {
     $db = db();
@@ -28,14 +29,10 @@ try {
             }
         }
     }
-    
-        $loader   = new Twig_Loader_Filesystem('templates');
-        $twig     = new Twig_Environment($loader, array(
-            'cache' => 'cash',
-            'auto_reload' => true));
-        $err      = "";
-        $template = $twig->loadTemplate('admin.twig');
-        echo $twig->render($template, array('err' => $err));
+
+    $err      = "";
+    $twig     = twig();
+    echo $twig->render('admin.twig', array('err' => $err));
 }
 catch(PDOException $e)
 {

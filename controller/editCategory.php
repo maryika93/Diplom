@@ -4,15 +4,11 @@ require_once 'lib/connect.php';
 require_once 'model/Answer.php';
 require_once 'model/Category.php';
 require_once 'model/Question.php';
+require_once 'lib/twig.php';
 
-$loader = new Twig_Loader_Filesystem('templates');
-$twig   = new Twig_Environment($loader, array(
-    'cache' => 'cache',
-    'auto_reload' => true));
-
-$template = $twig->loadTemplate('editCategory.twig');
-
+$twig   = twig();
 $db = db();
+
 $categories  = selectCategories();
 $answers = selectAnswers();
 
@@ -33,7 +29,7 @@ else{
     $allAnsweredQuestions = null;
     $allUsersQuestions = null;
 }
-echo $twig->render($template, array('categories' => $categories, 'answers' => $answers, 'answeredQuestions' => $answeredQuestions, 'userQuestions' => $userQuestions, 'numberquestions' => $numberquestions,
+echo $twig->render('editCategory.twig', array('categories' => $categories, 'answers' => $answers, 'answeredQuestions' => $answeredQuestions, 'userQuestions' => $userQuestions, 'numberquestions' => $numberquestions,
     'allAnsweredQuestions' => $allAnsweredQuestions, 'allUsersQuestions' => $allUsersQuestions));
 if (!empty($_POST)) {
 
