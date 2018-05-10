@@ -8,14 +8,15 @@
 <header></header>
 <section>
     <h1> Админка </h1>
-    <form method="post" action="admin.php" enctype="multipart/form-data">
+    <form method="get" action="admin.php" enctype="multipart/form-data">
     <ol>
         <li><a href="admin.php?c=administrators">Работа с администраторами</a></li>
         <li><a href="admin.php?c=categories">Посмотреть данные по категории</a></li>
         <li><a href="admin.php?c=editCategory">Работа с категориями</a></li>
     </ol>
-    <input type="submit" name="exit" value="Выход"></br></br>
+        <li><a href="admin.php?c=logout">Выход</a></li>
     </form>
 </section>
 </body>
 </html>
+

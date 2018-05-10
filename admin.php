@@ -19,12 +19,12 @@ if (isset($_GET['c'])) {
     if ($_GET['c'] == 'editCategory') {
         include 'controller/editCategory.php';
     }
-} else if(!isset($_POST['exit'])){
-    include 'controller/adminIndex.php';
+    if ($_GET['c'] == 'logout') {
+        include 'controller/logout.php';
+    }
+   else {
+        include 'controller/adminIndex.php';
+    }
 }
 
-if (isset($_POST['exit'])){
-    include 'controller/auth.php';
-    exit;
-}
 ?>
