@@ -2,6 +2,7 @@
 require_once 'vendor/autoload.php';
 require_once 'model/User.php';
 require_once 'lib/connect.php';
+session_start();
 
 if (!isset($_SESSION['login'])){
     include 'controller/auth.php';
