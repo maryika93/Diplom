@@ -1,6 +1,5 @@
 <?php
 include 'lib/load.php';
-include 'model/User.php';
 
 session_start();
 

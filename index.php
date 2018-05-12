@@ -1,9 +1,5 @@
 <?php
 include 'lib/load.php';
-include 'model/Answer.php';
-include 'model/Category.php';
-include 'model/Question.php';
-include 'model/User.php';
 
 $twig = twig();
 $db = db();

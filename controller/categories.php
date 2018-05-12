@@ -1,5 +1,4 @@
 <?php
-include 'lib/load.php';
 include 'model/Answer.php';
 include 'model/Category.php';
 include 'model/Question.php';

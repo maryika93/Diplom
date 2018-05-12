@@ -1,5 +1,4 @@
 <?php
-include 'lib/load.php';
 
 $err      = "";
 $twig = twig();

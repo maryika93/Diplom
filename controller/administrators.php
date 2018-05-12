@@ -1,6 +1,6 @@
 <?php
-include 'lib/load.php';
-include 'model/User.php';
+require_once 'model/User.php';
+
 
 $twig   = twig();
 $db = db();
