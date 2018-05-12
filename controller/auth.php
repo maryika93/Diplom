@@ -1,8 +1,6 @@
 <?php
 include 'model/User.php';
 
-session_start();
-
 try {
     $db = db();
     if (!empty($_POST)) {
