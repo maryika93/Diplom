@@ -22,9 +22,8 @@ if (isset($_GET['c'])) {
     if ($_GET['c'] == 'logout') {
         include 'controller/logout.php';
     }
-   else {
-        include 'controller/adminIndex.php';
-    }
+}   else {
+    include 'controller/adminIndex.php';
 }
 
 ?>
