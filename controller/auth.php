@@ -22,7 +22,7 @@ try {
                 if ($data[0]['pass'] === $password) {
                     $_SESSION['login'] = $data[0]['login'];
                     $_SESSION['id']    = $data[0]['id'];
-                    header('Location: index.php');
+                    header('Location: admin.php');
                     exit;
                 } else {
                     $err = "Извините, введённый вами логин или пароль неверный";
