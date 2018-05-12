@@ -1,6 +1,5 @@
 <?php
-require_once 'vendor/autoload.php';
-require_once 'lib/twig.php';
+include 'lib/load.php';
 
 $err      = "";
 $twig = twig();

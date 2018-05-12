@@ -1,7 +1,7 @@
 <?php
-require_once 'vendor/autoload.php';
-require_once 'model/User.php';
-require_once 'lib/connect.php';
+include 'lib/load.php';
+include 'model/User.php';
+
 session_start();
 
 if (!isset($_SESSION['login'])){

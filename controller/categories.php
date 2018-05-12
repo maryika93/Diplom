@@ -1,10 +1,8 @@
 <?php
-require_once 'vendor/autoload.php';
-require_once 'lib/connect.php';
-require_once 'model/Answer.php';
-require_once 'model/Category.php';
-require_once 'model/Question.php';
-require_once 'lib/twig.php';
+include 'lib/load.php';
+include 'model/Answer.php';
+include 'model/Category.php';
+include 'model/Question.php';
 
 $twig   = twig();
 $db = db();

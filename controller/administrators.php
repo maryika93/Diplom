@@ -1,8 +1,6 @@
 <?php
-require_once 'vendor/autoload.php';
-require_once 'lib/connect.php';
-require_once 'model/User.php';
-require_once 'lib/twig.php';
+include 'lib/load.php';
+include 'model/User.php';
 
 $twig   = twig();
 $db = db();
