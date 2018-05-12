@@ -1,6 +1,8 @@
 <?php
 include 'model/User.php';
 
+session_start();
+
 try {
     $db = db();
     if (!empty($_POST)) {
@@ -20,6 +22,8 @@ try {
                 if ($data[0]['pass'] === $password) {
                     $_SESSION['login'] = $data[0]['login'];
                     $_SESSION['id']    = $data[0]['id'];
+                    header('Location: index.php');
+                    exit;
                 } else {
                     $err = "Извините, введённый вами логин или пароль неверный";
                 }

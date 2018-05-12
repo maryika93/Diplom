@@ -1,8 +1,6 @@
 <?php
 include 'lib/load.php';
 
-session_start();
-
 if (!isset($_SESSION['login'])){
     include 'controller/auth.php';
     exit;
