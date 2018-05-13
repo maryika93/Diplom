@@ -44,9 +44,9 @@
                         <button type="submit" name="updateAuthorAnswered" value="{{ allAnsweredQuestion.id }}">Изменить имя автора</button></td>
                     <td align="center"><input type="text"  placeholder="вопрос" name="newquestionAnswered[{{ allAnsweredQuestion.id }}]">
                         <button type="submit" name="updateQuestionAnswered" value="{{ allAnsweredQuestion.id }}">Изменить текст вопроса</button></td>
-                    <td align="center"><a href="admin.php?deleteAnsweredQuestion={{ allAnsweredQuestion.id }}">Удалить</a>
-                        <a href="admin.php?hideansw={{ allAnsweredQuestion.id }}">Скрыть</a>
-                        <a href="admin.php?showansw={{ allAnsweredQuestion.id }}">Опубликовать</a></td>
+                    <td align="center"><button type="submit" name="deleteAnsweredQuestion" value="{{ allAnsweredQuestion.id }}">Удалить</button>
+                        <button type="submit" name="hideansw" value="{{ allAnsweredQuestion.id }}">Скрыть</button>
+                        <button type="submit" name="showansw" value="{{ allAnsweredQuestion.id }}">Опубликовать</button></td>
                 </tr>
             {% endfor %}
             {% for allUsersQuestion in allUsersQuestions %}
@@ -66,13 +66,12 @@
                         <button type="submit" name="updateAuthor" value="{{ allUsersQuestion.id }}">Изменить имя автора</button></td>
                     <td align="center"><input type="text"  placeholder="вопрос" name="newquestion[{{ allUsersQuestion.id }}]">
                         <button type="submit" name="updateQuestion" value="{{ allUsersQuestion.id }}">Изменить текст вопроса</button></td>
-                    <td align="center"><a href="admin.php?deleteQuestion={{ allUsersQuestion.id }}">Удалить</a>
-                        <a href="admin.php?hideansw={{ allUsersQuestion.id }}">Скрыть</a>
-                        <a href="admin.php?showansw={{ allUsersQuestion.id }}">Опубликовать</a></td>
+                    <td align="center"><button type="submit" name="deleteQuestion" value="{{ allUsersQuestion.id }}">Удалить</button>
+                        <button type="submit" name="hideansw" value="{{ allUsersQuestion.id }}">Скрыть</button>
+                        <button type="submit" name="showansw" value="{{ allUsersQuestion.id }}">Опубликовать</button></td>
                 </tr>
             {% endfor %}
         </table><br/><br/>
-
         <table border="1" cellpadding="10" width="100%">
             <tr>
                 <td align="center"> <strong> Вопрос </strong> </td>

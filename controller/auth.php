@@ -3,6 +3,7 @@ include 'model/User.php';
 
 try {
     $db = db();
+    $User = new User();
     if (!empty($_POST)) {
         if (isset($_POST['inp'])) {
             if (isset($_POST['login'])) {
@@ -12,7 +13,7 @@ try {
                 $password = md5($_POST['password']);
             }
 
-            $data = selectUser($login);
+            $data = $User -> selectUser($login);
 
             if (empty($data[0]['pass'])) {
                 $err = "Извините, введённый вами логин или пароль неверный";

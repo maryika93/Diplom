@@ -5,19 +5,21 @@ include 'model/Question.php';
 
 $twig   = twig();
 $db = db();
-
-$categories  = selectCategories();
-$answers = selectAnswers();
+$answer = new Answer();
+$category = new Category();
+$Question = new Question();
+$categories  = $category -> selectCategories();
+$answers = $answer -> selectAnswers();
 
 if(isset($_POST['seequestions'])){
 
     $categoryID = $_POST['categoryID'];
-    $answeredQuestions = selectIDQuestion($categoryID);
-    $userQuestions = selectIDUsersQuestion($categoryID);
+    $answeredQuestions = $Question -> selectIDQuestion($categoryID);
+    $userQuestions = $Question -> selectIDUsersQuestion($categoryID);
     $numberquestions = $answeredQuestions + $userQuestions;
 
-    $allAnsweredQuestions = selectAllQuestions($categoryID);
-    $allUsersQuestions = selectAllUsersQuestions($categoryID);
+    $allAnsweredQuestions = $Question -> selectAllQuestions($categoryID);
+    $allUsersQuestions = $Question -> selectAllUsersQuestions($categoryID);
 }
 else{
     $answeredQuestions = null;
@@ -34,48 +36,48 @@ if (!empty($_POST)) {
     if (isset($_POST['updateAuthor'])) {
         $b        = $_POST['updateAuthor']; //id
         $newname  = $_POST['authorName'][$b];
-        $datadone = updateUsersQuestion($newname, $b);
+        $datadone = $Question -> updateUsersQuestion($newname, $b);
     }
     if (isset($_POST['updateAuthorAnswered'])) {
         $b        = $_POST['updateAuthorAnswered']; //id
         $newname  = $_POST['authorNameAnswered'][$b];
-        $datadone = updateAnsweredQuestion($newname, $b);
+        $datadone = $Question -> updateAnsweredQuestion($newname, $b);
     }
 
     if (isset($_POST['updateQuestion'])) {
         $a        = $_POST['updateQuestion']; //id
         $newquest = $_POST['newquestion'][$a];
-        $updques  = updateUsersQuestionQ($newquest, $a);
+        $updques  = $Question -> updateUsersQuestionQ($newquest, $a);
     }
 
     if (isset($_POST['updateQuestionAnswered'])) {
         $a        = $_POST['updateQuestionAnswered']; //id
         $newquest = $_POST['newquestionAnswered'][$a];
-        $updques  = updateUsersQuestionQAnswered($newquest, $a);
+        $updques  = $Question -> updateUsersQuestionQAnswered($newquest, $a);
     }
 
     if (isset($_POST['changeCategory'])) {
         $a        = $_POST['changeCategory']; //id
         $newcat = $_POST['newCategoryID'][$a];
-        $datadone = updateAnsweredQuestionCategory($newcat, $a);
+        $datadone = $Question -> updateAnsweredQuestionCategory($newcat, $a);
     }
 
     if (isset($_POST['changeCategoryUsers'])) {
         $a        = $_POST['changeCategoryUsers']; //id
         $newcat = $_POST['newCategoryIDUsers'][$a];
-        $datadone = updateUsersQuestionCategory($newcat, $a);
+        $datadone = $Question -> updateUsersQuestionCategory($newcat, $a);
     }
 
     if (isset($_POST['updateAnswer'])) {
         $a        = $_POST['updateAnswer']; //id
         $newname = $_POST['answer'][$a];
-        $datadone = updateAnswer($newname, $a);
+        $answer -> updateAnswer($newname, $a);
     }
 
     if (isset($_POST['updateAnswerUser'])) {
         $a        = $_POST['updateAnswerUser']; //id
         $newname = $_POST['answerUser'][$a];
-        $datadone = updateAnswerUser($newname, $a);
+        $answer -> updateAnswerUser($newname, $a);
     }
 }
 
@@ -83,17 +85,16 @@ if (!empty($_GET)) {
 
     if (isset($_GET['deleteAnsweredQuestion'])) {
         $del     = $_GET['deleteAnsweredQuestion'];
-        $datadel = deleteQuestionByID($del);
+        $datadel = $Question -> deleteQuestionByID($del);
     }
     if (isset($_GET['deleteQuestion'])) {
-        $del     = $_GET['deleteQuestion'];
-        $datadel = deleteUsersQuestionByID($del);
+        $delete    = $_GET['deleteQuestion'];
+        $datadelete = $Question -> deleteUsersQuestionByID($delete);
     }
 
     if(isset($_GET['changeauthor'])){
         $author = $_GET['changeauthor'];
         $newname = $_POST['authorname'];
-        $datadone = updateUsersQuestionAuthor($newname, $author);
-        die;
+        $datadone = $Question -> updateUsersQuestionAuthor($newname, $author);
     }
 }
