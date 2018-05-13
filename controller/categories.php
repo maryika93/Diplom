@@ -5,18 +5,18 @@ include 'model/Question.php';
 $twig   = twig();
 $db = db();
 $category = new Category();
-$Question = new Question();
-$categories = $category -> selectCategories();
+$question = new Question();
+$categories = $category->selectCategories();
 
 if(isset($_POST['seequestions'])){
 
     $categoryID = $_POST['categoryID'];
-    $answeredQuestions = $Question -> selectIDQuestion($categoryID);
-    $userQuestions = $Question -> selectIDUsersQuestion($categoryID);
+    $answeredQuestions = $question->selectIDQuestion($categoryID);
+    $userQuestions = $question->selectIDUsersQuestion($categoryID);
     $numberquestions = $answeredQuestions + $userQuestions;
 
-    $allAnsweredQuestions = $Question -> selectAllQuestions($categoryID);
-    $allUsersQuestions = $Question -> selectAllUsersQuestions($categoryID);
+    $allAnsweredQuestions = $question->selectAllQuestions($categoryID);
+    $allUsersQuestions = $question->selectAllUsersQuestions($categoryID);
 
 }
 else{
@@ -32,14 +32,14 @@ echo $twig->render('categories.twig', array('categories' => $categories, 'answer
 
 if(isset($_POST['deletecat'])){
     $delcat = $_POST['categoryID'];
-    $catdel = $category -> deleteCategory($delcat);
+    $catdel = $category->deleteCategory($delcat);
     $categ = $_POST['categoryID'];
-    $uquesdel = $Question -> deleteQuestionInCategory($categ);
+    $uquesdel = $question->deleteQuestionInCategory($categ);
     die;
 }
     if(isset($_POST['createnewcat'])) {
         $newcategory = $_POST['newcat'];
-        $newcat = $category -> insertCategory($newcategory);
+        $newcat = $category->insertCategory($newcategory);
         die;
 
 }

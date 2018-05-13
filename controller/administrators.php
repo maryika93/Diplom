@@ -3,10 +3,10 @@ require_once 'model/User.php';
 
 $twig   = twig();
 $db = db();
-$User = new User();
+$user = new User();
 $err = "";
 
-$users  = $User -> selectUsers();
+$users  = $user->selectUsers();
 
 if (!empty($_POST)) {
 
@@ -14,7 +14,7 @@ if (!empty($_POST)) {
 
         if (!empty($_POST['login'])) {
             $login = $_POST['login'];
-            $data  = $User -> selectUser($login);
+            $data  = $user->selectUser($login);
         }
         if (!empty($_POST['password'])) {
             $password = md5($_POST['password']);
@@ -24,7 +24,7 @@ if (!empty($_POST)) {
             $err = "Извините, введённый вами логин уже зарегистрирован. Введите другой логин";
         } else {
             if (isset($login) & isset($password)) {
-                $result = $User -> insertUser($login, $password);
+                $result = $user->insertUser($login, $password);
             } else {
                 $err = "Введите желаемый логин и пароль";
             }
@@ -34,12 +34,12 @@ if (!empty($_POST)) {
     if (isset($_POST['change'])) {
         $newpassword = md5($_POST['newpassword']);
         $newlogin    = $_POST['admins'];
-        $datadone    = $User -> updateUser($newpassword, $newlogin);
+        $datadone    = $user->updateUser($newpassword, $newlogin);
     }
 
     if (isset($_POST['deleteadmin'])) {
         $login   = $_POST['admins'];
-        $datadel = $User -> deleteUser($login);
+        $datadel = $user->deleteUser($login);
     }
 }
 echo $twig->render('administrators.twig', array('users' => $users, 'err' => $err));
