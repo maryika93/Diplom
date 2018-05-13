@@ -5,7 +5,7 @@ class Answer
     public function selectAnswers()
     {
         $db = db();
-        $answers = $db->query('SELECT id, name, id_question FROM answers')->fetchAll();
+        $answers = $db->query('SELECT id, name, id_question, hide FROM answers')->fetchAll();
         return $answers;
     }
     public function updateAnswer($newname, $b)

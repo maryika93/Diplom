@@ -11,9 +11,10 @@ $category = new Category();
 $question = new Question();
 $categories  = $category->selectCategories();
 $questions = $question->selectQuestions();
+$userquestions = $question->selectUsersQuestions();
 $answers = $answer->selectAnswers();
 
-echo $twig->render('index.twig', array('categories' => $categories, 'questions' => $questions, 'answers' => $answers));
+echo $twig->render('index.twig', array('categories' => $categories, 'questions' => $questions,'userquestions' => $userquestions, 'answers' => $answers));
 
 if(!empty($_POST['send'])){
     $name = $_POST['name'];

@@ -5,14 +5,14 @@ class Question
     public function selectQuestions()
     {
         $db   = db();
-        $ques = $db->query('SELECT id, name, id_category, date, status, user, email FROM questions')->fetchAll();
+        $ques = $db->query('SELECT id, name, id_category, date, status, user, email, hide FROM questions')->fetchAll();
         return $ques;
     }
 
     public function selectAllQuestions($categoryID)
     {
         $db       = db();
-        $answques = $db->prepare("SELECT id, name, id_category, date, status, user, email FROM questions WHERE id_category = :qcategory");
+        $answques = $db->prepare("SELECT id, name, id_category, date, status, user, email, hide FROM questions WHERE id_category = :qcategory");
         $answques->bindParam(':qcategory', $categoryID);
         $answques->execute();
         $result = $answques->fetchAll(PDO::FETCH_ASSOC);
@@ -69,10 +69,17 @@ class Question
         return $question;
     }
 
+    public function selectUsersQuestions()
+    {
+        $db       = db();
+        $userques = $db->query('SELECT id, user, email, categoryID, question, status, answer, date, hide FROM users_questions')->fetchAll();
+        return $userques;
+    }
+
     public function selectAllUsersQuestions($categoryID)
     {
         $db       = db();
-        $userques = $db->prepare("SELECT id, user, email, categoryID, question,status, answer, date FROM users_questions WHERE categoryID = :categoryId");
+        $userques = $db->prepare("SELECT id, user, email, categoryID, question, status, answer, date, hide FROM users_questions WHERE categoryID = :categoryId");
         $userques->bindParam(':categoryId', $categoryID);
         $userques->execute();
         $result = $userques->fetchAll(PDO::FETCH_ASSOC);
@@ -156,6 +163,50 @@ class Question
         $datadel->bindParam(':id', $del);
         $datadel->execute();
         return $datadel;
+    }
+
+    public function hideQuestionAuthor($hide)
+    {
+        $db      = db();
+        $datahide = $db->prepare('UPDATE `questions` SET `hide`= 1, `status`= :stat WHERE id = :id');
+        $datahide->bindParam(':id', $hide);
+        $stat = "Ожидает публикации";
+        $datahide->bindParam(':stat', $stat);
+        $datahide->execute();
+        return $datahide;
+    }
+
+    public function hideUserQuestionAuthor($hide)
+    {
+        $db      = db();
+        $datahide = $db->prepare('UPDATE `users_questions` SET `hide`= 1, `status`= :stat WHERE id = :id');
+        $datahide->bindParam(':id', $hide);
+        $stat = "Ожидает публикации";
+        $datahide->bindParam(':stat', $stat);
+        $datahide->execute();
+        return $datahide;
+    }
+
+    public function showQuestionAuthor($show)
+    {
+        $db      = db();
+        $datashow = $db->prepare('UPDATE `questions` SET `hide`= 0, `status`= :stat WHERE id = :id');
+        $datashow->bindParam(':id', $show);
+        $stat = "Оубликован";
+        $datashow->bindParam(':stat', $stat);
+        $datashow->execute();
+        return $datashow;
+    }
+
+    public function showUserQuestionAuthor($show)
+    {
+        $db      = db();
+        $datashow = $db->prepare('UPDATE `users_questions` SET `hide`= 0, `status`= :stat WHERE id = :id');
+        $datashow->bindParam(':id', $show);
+        $stat = "Оубликован";
+        $datashow->bindParam(':stat', $stat);
+        $datashow->execute();
+        return $datashow;
     }
 
     public function updateUsersQuestionAuthor($newname, $author)

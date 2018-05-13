@@ -97,4 +97,26 @@ if (!empty($_GET)) {
         $newname = $_POST['authorname'];
         $datadone = $question->updateUsersQuestionAuthor($newname, $author);
     }
+
+    if(isset($_GET['hideAnsweredQuestion'])){
+        $hide = $_GET['hideAnsweredQuestion'];
+        $datadone = $question->hideQuestionAuthor($hide);
+    }
+
+    if(isset($_GET['hideQuestion'])){
+        $hide = $_GET['hideQuestion'];
+        $datadone = $question->hideUserQuestionAuthor($hide);
+    }
+
+    if(isset($_GET['showAnsweredQuestion'])){
+        $show = $_GET['showAnsweredQuestion'];
+        $datadone = $question->showQuestionAuthor($show);
+    }
+
+    if(isset($_GET['showQuestion'])){
+        $show = $_GET['showQuestion'];
+        $datadone = $question->showUserQuestionAuthor($show);
+    }
+
+
 }
