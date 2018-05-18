@@ -5,25 +5,34 @@ class Question
     public function selectQuestions()
     {
         $db   = db();
-        $ques = $db->query('SELECT id, name, id_category, date, status, user, email, hide FROM questions')->fetchAll();
+        $ques = $db->query('SELECT id, question, id_category, date, status, name, email, hide FROM questions')->fetchAll();
         return $ques;
     }
 
-    public function selectAllQuestions($categoryID)
+    public function selectAllQuestions($id_category)
     {
         $db       = db();
-        $answques = $db->prepare("SELECT id, name, id_category, date, status, user, email, hide FROM questions WHERE id_category = :qcategory");
-        $answques->bindParam(':qcategory', $categoryID);
+        $answques = $db->prepare("SELECT id, question, id_category, date, status, name, email, hide, answer FROM questions WHERE id_category = :qcategory");
+        $answques->bindParam(':qcategory', $id_category);
         $answques->execute();
         $result = $answques->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
 
-    public function selectIDQuestion($categoryID)
+    public function selectIDQuestion($id_category)
     {
         $db            = db();
-        $answquestions = $db->prepare("SELECT COUNT(*) FROM questions WHERE id_category = :categoryId");
-        $answquestions->bindParam(':categoryId', $categoryID);
+        $answquestions = $db->prepare("SELECT COUNT(*) FROM questions WHERE id_category = :id_category AND hide = 0");
+        $answquestions->bindParam(':id_category', $id_category);
+        $answquestions->execute();
+        $countVariable = $answquestions->fetch();
+        return $countVariable[0];
+    }
+
+    public function selectIDUsersQuestion($id_category){
+        $db            = db();
+        $answquestions = $db->prepare("SELECT COUNT(*) FROM questions WHERE id_category = :id_category AND hide = 1");
+        $answquestions->bindParam(':id_category', $id_category);
         $answquestions->execute();
         $countVariable = $answquestions->fetch();
         return $countVariable[0];
@@ -47,80 +56,26 @@ class Question
         return $datadel;
     }
 
-    public function deleteUsersQuestionByID($del)
-    {
-        $db      = db();
-        $datadel = $db->prepare('DELETE FROM `users_questions` WHERE id = :id');
-        $datadel->bindParam(':id', $del);
-        $datadel->execute();
-        return $datadel;
-    }
-
-    public function insertUsersQuestion($name, $email, $ques, $date, $categoryID)
+    public function insertUsersQuestion($name, $email, $ques, $date, $id_category, $status, $hide)
     {
         $db       = db();
-        $question = $db->prepare('INSERT INTO `users_questions`(`user`, `email`, `categoryID`, `question`, `date`) VALUES (:user, :email, :category, :question, :date)');
-        $question->bindParam(':user', $name);
-        $question->bindParam(':category', $categoryID);
+        $question = $db->prepare('INSERT INTO `questions`(`name`, `email`, `id_category`, `question`, `date`, `status`) VALUES (:name, :email, :category, :question, :date, :status, :hide)');
+        $question->bindParam(':name', $name);
+        $question->bindParam(':category', $id_category);
         $question->bindParam(':email', $email);
         $question->bindParam(':question', $ques);
         $question->bindParam(':date', $date);
+        $question->bindParam(':status', $status);
+        $question->bindParam(':hide', $hide);
         $question->execute();
         return $question;
-    }
-
-    public function selectUsersQuestions()
-    {
-        $db       = db();
-        $userques = $db->query('SELECT id, user, email, categoryID, question, status, answer, date, hide FROM users_questions')->fetchAll();
-        return $userques;
-    }
-
-    public function selectAllUsersQuestions($categoryID)
-    {
-        $db       = db();
-        $userques = $db->prepare("SELECT id, user, email, categoryID, question, status, answer, date, hide FROM users_questions WHERE categoryID = :categoryId");
-        $userques->bindParam(':categoryId', $categoryID);
-        $userques->execute();
-        $result = $userques->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
-    }
-
-    public function selectIDUsersQuestion($categoryID)
-    {
-        $db            = db();
-        $userquestions = $db->prepare("SELECT COUNT(*) FROM users_questions WHERE categoryID = :categoryId");
-        $userquestions->bindParam(':categoryId', $categoryID);
-        $userquestions->execute();
-        $countVariable = $userquestions->fetch(PDO::FETCH_NUM);
-        return $countVariable[0];
     }
 
     public function updateUsersQuestion($newname, $b)
     {
         $db       = db();
-        $datadone = $db->prepare('UPDATE `users_questions` SET `user`=:user WHERE id = :id');
-        $datadone->bindParam(':user', $newname);
-        $datadone->bindParam(':id', $b);
-        $datadone->execute();
-        return $datadone;
-    }
-
-    public function updateAnsweredQuestion($newname, $b)
-    {
-        $db       = db();
-        $datadone = $db->prepare('UPDATE `questions` SET `user`=:user WHERE id = :id');
-        $datadone->bindParam(':user', $newname);
-        $datadone->bindParam(':id', $b);
-        $datadone->execute();
-        return $datadone;
-    }
-
-    public function updateAnsweredQuestionCategory($newcat, $b)
-    {
-        $db       = db();
-        $datadone = $db->prepare('UPDATE `questions` SET `id_category`=:category WHERE id = :id');
-        $datadone->bindParam(':category', $newcat);
+        $datadone = $db->prepare('UPDATE `questions` SET `name`=:name WHERE id = :id');
+        $datadone->bindParam(':name', $newname);
         $datadone->bindParam(':id', $b);
         $datadone->execute();
         return $datadone;
@@ -129,7 +84,7 @@ class Question
     public function updateUsersQuestionQ($newquest, $a)
     {
         $db      = db();
-        $updques = $db->prepare('UPDATE `users_questions` SET `question`=:quest WHERE id = :id');
+        $updques = $db->prepare('UPDATE `questions` SET `question`=:quest WHERE id = :id');
         $updques->bindParam(':quest', $newquest);
         $updques->bindParam(':id', $a);
         $updques->execute();
@@ -139,33 +94,14 @@ class Question
     public function updateUsersQuestionCategory($newcat, $b)
     {
         $db       = db();
-        $datadone = $db->prepare('UPDATE `users_questions` SET `categoryID`=:category WHERE id = :id');
+        $datadone = $db->prepare('UPDATE `questions` SET `id_category`=:category WHERE id = :id');
         $datadone->bindParam(':category', $newcat);
         $datadone->bindParam(':id', $b);
         $datadone->execute();
         return $datadone;
     }
 
-    public function updateUsersQuestionQAnswered($newquest, $a)
-    {
-        $db      = db();
-        $updques = $db->prepare('UPDATE `questions` SET `name`=:quest WHERE id = :id');
-        $updques->bindParam(':quest', $newquest);
-        $updques->bindParam(':id', $a);
-        $updques->execute();
-        return $updques;
-    }
-
-    public function deleteUsersQuestionID($del)
-    {
-        $db      = db();
-        $datadel = $db->prepare('DELETE FROM `users_questions` WHERE id = :id');
-        $datadel->bindParam(':id', $del);
-        $datadel->execute();
-        return $datadel;
-    }
-
-    public function hideQuestionAuthor($hide)
+    public function hideUserQuestionAuthor($hide)
     {
         $db      = db();
         $datahide = $db->prepare('UPDATE `questions` SET `hide`= 1, `status`= :stat WHERE id = :id');
@@ -176,18 +112,7 @@ class Question
         return $datahide;
     }
 
-    public function hideUserQuestionAuthor($hide)
-    {
-        $db      = db();
-        $datahide = $db->prepare('UPDATE `users_questions` SET `hide`= 1, `status`= :stat WHERE id = :id');
-        $datahide->bindParam(':id', $hide);
-        $stat = "Ожидает публикации";
-        $datahide->bindParam(':stat', $stat);
-        $datahide->execute();
-        return $datahide;
-    }
-
-    public function showQuestionAuthor($show)
+    public function showUserQuestionAuthor($show)
     {
         $db      = db();
         $datashow = $db->prepare('UPDATE `questions` SET `hide`= 0, `status`= :stat WHERE id = :id');
@@ -198,22 +123,11 @@ class Question
         return $datashow;
     }
 
-    public function showUserQuestionAuthor($show)
-    {
-        $db      = db();
-        $datashow = $db->prepare('UPDATE `users_questions` SET `hide`= 0, `status`= :stat WHERE id = :id');
-        $datashow->bindParam(':id', $show);
-        $stat = "Оубликован";
-        $datashow->bindParam(':stat', $stat);
-        $datashow->execute();
-        return $datashow;
-    }
-
     public function updateUsersQuestionAuthor($newname, $author)
     {
         $db       = db();
-        $datadone = $db->prepare('UPDATE `users_questions` SET `user`=:user WHERE login = :login');
-        $datadone->bindParam(':user', $newname);
+        $datadone = $db->prepare('UPDATE `questions` SET `name`=:name WHERE login = :login');
+        $datadone->bindParam(':name', $newname);
         $datadone->bindParam(':login', $author);
         $datadone->execute();
         return $datadone;

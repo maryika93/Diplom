@@ -13,23 +13,21 @@ $answers = $answer->selectAnswers();
 
 if(isset($_POST['seequestions'])){
 
-    $categoryID = $_POST['categoryID'];
-    $answeredQuestions = $question->selectIDQuestion($categoryID);
-    $userQuestions = $question->selectIDUsersQuestion($categoryID);
+    $id_category = $_POST['id_category'];
+    $answeredQuestions = $question->selectIDQuestion($id_category);
+    $userQuestions = $question->selectIDUsersQuestion($id_category);
     $numberquestions = $answeredQuestions + $userQuestions;
 
-    $allAnsweredQuestions = $question->selectAllQuestions($categoryID);
-    $allUsersQuestions = $question->selectAllUsersQuestions($categoryID);
+    $allAnsweredQuestions = $question->selectAllQuestions($id_category);
 }
 else{
     $answeredQuestions = null;
     $userQuestions = null;
     $numberquestions = null;
     $allAnsweredQuestions = null;
-    $allUsersQuestions = null;
 }
 echo $twig->render('editCategory.twig', array('categories' => $categories, 'answers' => $answers, 'answeredQuestions' => $answeredQuestions, 'userQuestions' => $userQuestions, 'numberquestions' => $numberquestions,
-    'allAnsweredQuestions' => $allAnsweredQuestions, 'allUsersQuestions' => $allUsersQuestions));
+    'allAnsweredQuestions' => $allAnsweredQuestions));
 if (!empty($_POST)) {
 
 
@@ -38,33 +36,15 @@ if (!empty($_POST)) {
         $newname  = $_POST['authorName'][$b];
         $datadone = $question->updateUsersQuestion($newname, $b);
     }
-    if (isset($_POST['updateAuthorAnswered'])) {
-        $b        = $_POST['updateAuthorAnswered']; //id
-        $newname  = $_POST['authorNameAnswered'][$b];
-        $datadone = $question->updateAnsweredQuestion($newname, $b);
-    }
-
     if (isset($_POST['updateQuestion'])) {
         $a        = $_POST['updateQuestion']; //id
         $newquest = $_POST['newquestion'][$a];
         $updques  = $question->updateUsersQuestionQ($newquest, $a);
     }
 
-    if (isset($_POST['updateQuestionAnswered'])) {
-        $a        = $_POST['updateQuestionAnswered']; //id
-        $newquest = $_POST['newquestionAnswered'][$a];
-        $updques  = $question->updateUsersQuestionQAnswered($newquest, $a);
-    }
-
     if (isset($_POST['changeCategory'])) {
         $a        = $_POST['changeCategory']; //id
-        $newcat = $_POST['newCategoryID'][$a];
-        $datadone = $question->updateAnsweredQuestionCategory($newcat, $a);
-    }
-
-    if (isset($_POST['changeCategoryUsers'])) {
-        $a        = $_POST['changeCategoryUsers']; //id
-        $newcat = $_POST['newCategoryIDUsers'][$a];
+        $newcat = $_POST['newid_category'][$a];
         $datadone = $question->updateUsersQuestionCategory($newcat, $a);
     }
 
@@ -72,12 +52,6 @@ if (!empty($_POST)) {
         $a        = $_POST['updateAnswer']; //id
         $newname = $_POST['answer'][$a];
         $answer->updateAnswer($newname, $a);
-    }
-
-    if (isset($_POST['updateAnswerUser'])) {
-        $a        = $_POST['updateAnswerUser']; //id
-        $newname = $_POST['answerUser'][$a];
-        $answer->updateAnswerUser($newname, $a);
     }
 }
 
@@ -87,10 +61,6 @@ if (!empty($_GET)) {
         $del     = $_GET['deleteAnsweredQuestion'];
         $datadel = $question->deleteQuestionByID($del);
     }
-    if (isset($_GET['deleteQuestion'])) {
-        $delete    = $_GET['deleteQuestion'];
-        $datadelete = $question->deleteUsersQuestionByID($delete);
-    }
 
     if(isset($_GET['changeauthor'])){
         $author = $_GET['changeauthor'];
@@ -98,19 +68,9 @@ if (!empty($_GET)) {
         $datadone = $question->updateUsersQuestionAuthor($newname, $author);
     }
 
-    if(isset($_GET['hideAnsweredQuestion'])){
-        $hide = $_GET['hideAnsweredQuestion'];
-        $datadone = $question->hideQuestionAuthor($hide);
-    }
-
     if(isset($_GET['hideQuestion'])){
         $hide = $_GET['hideQuestion'];
         $datadone = $question->hideUserQuestionAuthor($hide);
-    }
-
-    if(isset($_GET['showAnsweredQuestion'])){
-        $show = $_GET['showAnsweredQuestion'];
-        $datadone = $question->showQuestionAuthor($show);
     }
 
     if(isset($_GET['showQuestion'])){

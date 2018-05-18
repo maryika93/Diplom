@@ -21,18 +21,12 @@
             {% for category in categories  %}
                 <li class="cd-faq-title"><h2>{{ category.name }}</h2></li>
                 <li>
-                    {% for question in questions if (question.id_category==category.id and question.hide==0)%}
-                        <a class="cd-faq-trigger" href="#0">{{ question.name }}</a>
+                    {% for question in questions if (question.id_category==category.id and question.hide==0 and question.answer != NULL)%}
+                        <a class="cd-faq-trigger" href="#0">{{ question.question }}</a>
                         <div class="cd-faq-content">
                             {% for answer in answers if (answer.id == question.id and answer.hide==0)%}
-                                <p>{{ answer.name }}</p>
+                                <p>{{ answer.answer }}</p>
                             {% endfor %}
-                        </div>
-                    {% endfor %}
-                    {% for userquestion in userquestions if (userquestion.categoryID==category.id and userquestion.hide==0)%}
-                        <a class="cd-faq-trigger" href="#0">{{ userquestion.question }}</a>
-                        <div class="cd-faq-content">
-                                <p>{{ userquestion.answer }}</p>
                         </div>
                     {% endfor %}
                 </li>
@@ -48,7 +42,7 @@
         <label>Адрес электронной почты</label>
         <input class="myinp" type="text" placeholder="Адрес электронной почты" name="email"><br/>
         <label>Выберите категорию</label>
-        <select name = 'categoryID'>
+        <select name = 'id_category'>
             {% for category in categories  %}
                 <option value = "{{ category.id }}" > {{ category.name }} </option>
             {% endfor %}

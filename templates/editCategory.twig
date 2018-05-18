@@ -9,7 +9,7 @@
 </header>
 <section>
     <form method="post" action="" enctype="multipart/form-data">
-        <select name = 'categoryID'>
+        <select name = 'id_category'>
             {% for category in categories %}
                 <option value = "{{ category.id }}" > {{ category.name }} </option>
             {% endfor %}
@@ -29,46 +29,24 @@
             </tr>
             {% for allAnsweredQuestion in allAnsweredQuestions %}
                 <tr>
+                    <td align="center">{{ allAnsweredQuestion.question }}</td>
                     <td align="center">{{ allAnsweredQuestion.name }}</td>
-                    <td align="center">{{ allAnsweredQuestion.user }}</td>
                     <td align="center">{{ allAnsweredQuestion.email }}</td>
                     <td align="center">{{ allAnsweredQuestion.date }}</td>
                     <td align="center"> {{ allAnsweredQuestion.status }} </td>
-                    <td align="center"> <select name = "newCategoryID[{{ allAnsweredQuestion.id }}]">
+                    <td align="center"> <select name = "newid_category[{{ allAnsweredQuestion.id }}]">
                             {% for category in categories %}
                                 <option value = "{{ category.id }}" > {{ category.name }} </option>
                             {% endfor %}
                         </select>
                         <button type="submit" name="changeCategory" value="{{ allAnsweredQuestion.id }}">Изменить категорию</button></td>
-                    <td align="center"><input type="text"  placeholder="имя автора" name="authorNameAnswered[{{ allAnsweredQuestion.id }}]">
-                        <button type="submit" name="updateAuthorAnswered" value="{{ allAnsweredQuestion.id }}">Изменить имя автора</button></td>
-                    <td align="center"><input type="text"  placeholder="вопрос" name="newquestionAnswered[{{ allAnsweredQuestion.id }}]">
-                        <button type="submit" name="updateQuestionAnswered" value="{{ allAnsweredQuestion.id }}">Изменить текст вопроса</button></td>
+                    <td align="center"><input type="text"  placeholder="имя автора" name="authorName[{{ allAnsweredQuestion.id }}]">
+                        <button type="submit" name="updateAuthor" value="{{ allAnsweredQuestion.id }}">Изменить имя автора</button></td>
+                    <td align="center"><input type="text"  placeholder="вопрос" name="newquestion[{{ allAnsweredQuestion.id }}]">
+                        <button type="submit" name="updateQuestion" value="{{ allAnsweredQuestion.id }}">Изменить текст вопроса</button></td>
                     <td align="center"><a href="?c=editCategory&deleteAnsweredQuestion={{ allAnsweredQuestion.id }}">Удалить</a>
-                        <a href="admin.php?c=editCategory&hideAnsweredQuestion={{ allAnsweredQuestion.id }}">Скрыть</a>
-                        <a href="admin.php?c=editCategory&showAnsweredQuestion={{ allAnsweredQuestion.id }}">Опубликовать</a></td>
-                </tr>
-            {% endfor %}
-            {% for allUsersQuestion in allUsersQuestions %}
-                <tr>
-                    <td align="center">{{ allUsersQuestion.question }}</td>
-                    <td align="center">{{ allUsersQuestion.user }}</td>
-                    <td align="center">{{ allUsersQuestion.email }}</td>
-                    <td align="center">{{ allUsersQuestion.date }}</td>
-                    <td align="center"> {{ allUsersQuestion.status }} </td>
-                    <td align="center"> <select name = "newCategoryIDUsers[{{ allUsersQuestion.id }}]">
-                            {% for category in categories %}
-                                <option value = "{{ category.id }}" > {{ category.name }} </option>
-                            {% endfor %}
-                        </select>
-                        <button type="submit" name="changeCategoryUsers" value="{{ allUsersQuestion.id }}">Изменить категорию</button></td>
-                    <td align="center"><input type="text"  placeholder="имя автора" name="authorName[{{ allUsersQuestion.id }}]">
-                        <button type="submit" name="updateAuthor" value="{{ allUsersQuestion.id }}">Изменить имя автора</button></td>
-                    <td align="center"><input type="text"  placeholder="вопрос" name="newquestion[{{ allUsersQuestion.id }}]">
-                        <button type="submit" name="updateQuestion" value="{{ allUsersQuestion.id }}">Изменить текст вопроса</button></td>
-                    <td align="center"><a href="?c=editCategory&deleteQuestion={{ allUsersQuestion.id }}">Удалить</a>
-                        <a href="admin.php?c=editCategory&hideQuestion={{ allUsersQuestion.id }}">Скрыть</a>
-                        <a href="admin.php?c=editCategory&showQuestion={{ allUsersQuestion.id }}">Опубликовать</a></td>
+                        <a href="admin.php?c=editCategory&hideQuestion={{ allAnsweredQuestion.id }}">Скрыть</a>
+                        <a href="admin.php?c=editCategory&showQuestion={{ allAnsweredQuestion.id }}">Опубликовать</a></td>
                 </tr>
             {% endfor %}
         </table><br/>
@@ -80,22 +58,15 @@
             </tr>
             {% for allAnsweredQuestion in allAnsweredQuestions %}
                 <tr>
-                    <td align="center">{{ allAnsweredQuestion.name }}</td>
+                    <td align="center">{{ allAnsweredQuestion.question }}</td>
                     {% for answer in answers if answer.id == allAnsweredQuestion.id%}
-                    <td align="center">{{ answer.name }}</td>
+                    <td align="center">{{ allAnsweredQuestion.answer }}</td>
                     {% endfor %}
                     <td align="center"><input type="text"  placeholder="ответ" name="answer[{{ allAnsweredQuestion.id }}]">
                         <button type="submit" name="updateAnswer" value="{{ allAnsweredQuestion.id }}">Изменить ответ</button></td>
                 </tr>
             {% endfor %}
-            {% for allUsersQuestion in allUsersQuestions %}
-                <tr>
-                    <td align="center">{{ allUsersQuestion.question }}</td>
-                    <td align="center">{{ allUsersQuestion.answer }}</td>
-                    <td align="center"><input type="text"  placeholder="ответ" name="answerUser[{{ allUsersQuestion.id }}]">
-                        <button type="submit" name="updateAnswerUser" value="{{ allUsersQuestion.id }}">Изменить ответ</button></td>
-                </tr>
-            {% endfor %}
+
         </table><br/><br/>
         <a href="admin.php">Вернуться</a>
     </form>

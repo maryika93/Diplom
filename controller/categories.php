@@ -16,7 +16,6 @@ if(isset($_POST['seequestions'])){
     $numberquestions = $answeredQuestions + $userQuestions;
 
     $allAnsweredQuestions = $question->selectAllQuestions($categoryID);
-    $allUsersQuestions = $question->selectAllUsersQuestions($categoryID);
 
 }
 else{
@@ -24,11 +23,10 @@ else{
     $userQuestions = null;
     $numberquestions = null;
     $allAnsweredQuestions = null;
-    $allUsersQuestions = null;
 }
 
 echo $twig->render('categories.twig', array('categories' => $categories, 'answeredQuestions' => $answeredQuestions, 'userQuestions' => $userQuestions, 'numberquestions' => $numberquestions,
-    'allAnsweredQuestions' => $allAnsweredQuestions, 'allUsersQuestions' => $allUsersQuestions));
+    'allAnsweredQuestions' => $allAnsweredQuestions));
 
 if(isset($_POST['deletecat'])){
     $delcat = $_POST['categoryID'];
