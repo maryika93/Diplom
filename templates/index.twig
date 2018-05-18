@@ -21,7 +21,7 @@
             {% for category in categories  %}
                 <li class="cd-faq-title"><h2>{{ category.name }}</h2></li>
                 <li>
-                    {% for question in questions if (question.id_category==category.id and question.hide==0 and question.answer != NULL)%}
+                    {% for question in questions if (question.id_category==category.id and question.hide==0)%}
                         <a class="cd-faq-trigger" href="#0">{{ question.question }}</a>
                         <div class="cd-faq-content">
                             {% for answer in answers if (answer.id == question.id and answer.hide==0)%}
