@@ -3,7 +3,6 @@ include 'model/Category.php';
 include 'model/Question.php';
 
 $twig   = twig();
-$db = db();
 $category = new Category();
 $question = new Question();
 $categories = $category->selectCategories();
@@ -14,19 +13,14 @@ if(isset($_POST['seequestions'])){
     $answeredQuestions = $question->selectIDQuestion($categoryID);
     $userQuestions = $question->selectIDUsersQuestion($categoryID);
     $numberquestions = $answeredQuestions + $userQuestions;
-
     $allAnsweredQuestions = $question->selectAllQuestions($categoryID);
 
-}
-else{
+} else{
     $answeredQuestions = null;
     $userQuestions = null;
     $numberquestions = null;
     $allAnsweredQuestions = null;
 }
-
-echo $twig->render('categories.twig', array('categories' => $categories, 'answeredQuestions' => $answeredQuestions, 'userQuestions' => $userQuestions, 'numberquestions' => $numberquestions,
-    'allAnsweredQuestions' => $allAnsweredQuestions));
 
 if(isset($_POST['deletecat'])){
     $delcat = $_POST['categoryID'];
@@ -41,3 +35,8 @@ if(isset($_POST['deletecat'])){
         die;
 
 }
+echo $twig->render('categories.twig', array('categories' => $categories, 'answeredQuestions' => $answeredQuestions, 'userQuestions' => $userQuestions, 'numberquestions' => $numberquestions,
+    'allAnsweredQuestions' => $allAnsweredQuestions));
+header('Location: categories.php');
+
+?>

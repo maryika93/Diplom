@@ -59,7 +59,7 @@ class Question
     public function insertUsersQuestion($name, $email, $ques, $date, $id_category, $status, $hide)
     {
         $db       = db();
-        $question = $db->prepare('INSERT INTO `questions`(`name`, `email`, `id_category`, `question`, `date`, `status`) VALUES (:name, :email, :category, :question, :date, :status, :hide)');
+        $question = $db->prepare('INSERT INTO `questions`(`id_category`, `name`, `email`, `question`, `date`, `status`, hide) VALUES (:category, :name, :email, :question, :date, :status, :hide)');
         $question->bindParam(':name', $name);
         $question->bindParam(':category', $id_category);
         $question->bindParam(':email', $email);

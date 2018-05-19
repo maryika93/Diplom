@@ -4,7 +4,6 @@ include 'model/Category.php';
 include 'model/Question.php';
 
 $twig   = twig();
-$db = db();
 $answer = new Answer();
 $category = new Category();
 $question = new Question();
@@ -26,10 +25,7 @@ else{
     $numberquestions = null;
     $allAnsweredQuestions = null;
 }
-echo $twig->render('editCategory.twig', array('categories' => $categories, 'answers' => $answers, 'answeredQuestions' => $answeredQuestions, 'userQuestions' => $userQuestions, 'numberquestions' => $numberquestions,
-    'allAnsweredQuestions' => $allAnsweredQuestions));
 if (!empty($_POST)) {
-
 
     if (isset($_POST['updateAuthor'])) {
         $b        = $_POST['updateAuthor']; //id
@@ -78,5 +74,6 @@ if (!empty($_GET)) {
         $datadone = $question->showUserQuestionAuthor($show);
     }
 
-
+    echo $twig->render('editCategory.twig', array('categories' => $categories, 'answers' => $answers, 'answeredQuestions' => $answeredQuestions, 'userQuestions' => $userQuestions, 'numberquestions' => $numberquestions,
+        'allAnsweredQuestions' => $allAnsweredQuestions));
 }

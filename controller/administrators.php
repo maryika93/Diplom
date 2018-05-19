@@ -1,15 +1,10 @@
 <?php
 require_once 'model/User.php';
 
-$twig   = twig();
-$db = db();
 $user = new User();
-$err = "";
-
-$users  = $user->selectUsers();
 
 if (!empty($_POST)) {
-
+    $err = "";
     if (isset($_POST['registrate'])) {
 
         if (!empty($_POST['login'])) {
@@ -41,5 +36,9 @@ if (!empty($_POST)) {
         $login   = $_POST['admins'];
         $datadel = $user->deleteUser($login);
     }
+} else {
+    $users  = $user->selectUsers();
 }
+
+$twig   = twig();
 echo $twig->render('administrators.twig', array('users' => $users, 'err' => $err));

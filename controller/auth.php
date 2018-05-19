@@ -1,10 +1,9 @@
 <?php
 include 'model/User.php';
 
-try {
-    $db = db();
-    $user = new User();
     if (!empty($_POST)) {
+        $user = new User();
+        $err      = "";
         if (isset($_POST['inp'])) {
             if (isset($_POST['login'])) {
                 $login = $_POST['login'];
@@ -15,12 +14,12 @@ try {
 
             $data = $user->selectUser($login);
 
-            if (empty($data[0]['pass'])) {
+            if (empty($data['pass'])) {
                 $err = "Извините, введённый вами логин или пароль неверный";
             } else {
-                if ($data[0]['pass'] === $password) {
-                    $_SESSION['login'] = $data[0]['login'];
-                    $_SESSION['id']    = $data[0]['id'];
+                if ($data['pass'] === $password) {
+                    $_SESSION['login'] = $data['login'];
+                    $_SESSION['id']    = $data['id'];
                     header('Location: admin.php');
                     exit;
                 } else {
@@ -29,12 +28,7 @@ try {
             }
         }
     }
-    $err      = "";
     $twig     = twig();
     echo $twig->render('admin.twig', array('err' => $err));
-}
-catch(PDOException $e)
-{
-    die("Error: " . $e->getMessage());
-}
+
 ?>
